@@ -1,0 +1,21 @@
+{
+"AKASH_KEY_NAME":"your-keyname",
+"AKASH_ACCOUNT_ADDRESS":"akash1.....",
+"AKASH_YML_PATH":"full path to deploy.yml",
+"AKASH_YML_EDITED_PATH":"full path to deploy_submit.yml",
+"AKASH_HOME":"~/.akash",
+"GAS_CONFIG":"--gas-prices=\"0.025uakt\" --gas=\"auto\" --gas-adjustment=1.25",
+"AKASH_PRICE_LIMIT":180,
+"AKASH_NODE":"http://135.181.181.122:28957",
+"AKASH_EXE":"/bin/akash",
+"AKASH_KEYRING_BACKEND":"os",
+"AKASH_NET":"https://raw.githubusercontent.com/ovrclk/net/master/mainnet",
+"AKASH_VERSION":"$(curl -s \"$AKASH_NET/version.txt\")",
+"AKASH_CHAIN_ID":"$(curl -s \"$AKASH_NET/chain-id.txt\")",
+"SSH_IP":"127.0.0.1",
+"SSH_PORT":22,
+"SSH_LOGIN":"your ssh login",
+"SSH_PASS":"your ssh pass",
+"CREATE_DEPLOYMENTS":0,
+"DEFAULT_CORES":4
+}

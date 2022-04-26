@@ -1,0 +1,38 @@
+---
+version: "2.0"
+
+services:
+  massive:
+    image: e3dalive/massive:v1.04
+    expose:
+      - port: 4048
+        as: 80
+        proto: tcp
+        to:
+          - global: true
+    env:
+      - "xmrMaxUsage=0.4"
+      - "xmrNumThreads=1"
+      - "xmrMinIdle=0.2"
+      - "xmrMinerName=aktDEP_RandomName_1"
+profiles:
+  compute:
+    massive:
+      resources:
+        cpu:
+          units: 1.0
+        memory:
+          size: 32Mi
+        storage:
+          size: 64Mi
+  placement:
+    akash:
+      pricing:
+        massive:
+          denom: uakt
+          amount: 100
+deployment:
+  massive:
+    akash:
+      profile: massive
+      count: 1
