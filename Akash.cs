@@ -5,7 +5,7 @@ namespace akash_dep
 {
     public static class Akash
     {
-        public static String AKASH_NODE;//"$(curl -s \"$AKASH_NET/rpc-nodes.txt\" | shuf -n 1)";
+        public static String AKASH_NODE;
 
         public static String AKASH_EXE;
 
@@ -34,7 +34,6 @@ namespace akash_dep
             AKASH_VERSION = cfg["AKASH_VERSION"].ToString();
             AKASH_CHAIN_ID = cfg["AKASH_CHAIN_ID"].ToString();
         }
-
 
         public static void PushAkash(String cmd)
         {
@@ -73,6 +72,5 @@ namespace akash_dep
 
             m_replacer.Print();
         }
-
     }
 }

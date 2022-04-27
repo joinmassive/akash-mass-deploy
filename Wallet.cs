@@ -3,12 +3,8 @@ using System.IO;
 using System.Collections.Generic;
 using Newtonsoft.Json.Linq;
 
-
 namespace akash_dep
 {
-
-
-
     public class Wallet
     {
         public static String AKASH_KEY_NAME = "";
@@ -22,7 +18,6 @@ namespace akash_dep
             AKASH_KEY_NAME = cfg["AKASH_KEY_NAME"].ToString();
             AKASH_ACCOUNT_ADDRESS = cfg["AKASH_ACCOUNT_ADDRESS"].ToString();
         }
-       
 
         public String Prepare(String val)
         {
@@ -46,14 +41,14 @@ namespace akash_dep
             File.Delete("wallet.txt");
         }
 
-
         public bool Update()
         {
             Console.WriteLine("getting wallet status");
-            if(File.Exists("wallet.txt"))
+
+            if (File.Exists("wallet.txt"))
             {
                 Console.WriteLine("cached wallet.txt");
-                String json=File.ReadAllText("wallet.txt");
+                String json = File.ReadAllText("wallet.txt");
                 m_walletJS = Converters.STRtoJS(json);
             }
             else
@@ -84,7 +79,6 @@ namespace akash_dep
                 Console.WriteLine("invalid wallet json");
                 return false;
             }
-
 
             return true;
         }
