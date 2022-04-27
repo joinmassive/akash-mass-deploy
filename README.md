@@ -1,13 +1,19 @@
 # Akash Mass Deploy
 
-Akash Mass Deploy is a console utility for managing multiple deployments on the Akash network.
+Akash Mass Deploy is a console app for managing a large number of deployments on the
+[Akash](https://akash.network/) network.
 
-## Why was it created
+## Motivation
 
-There are two ways to currently deploy code to Akash, the Akashlytics deploy tool and the Akash command line tool. Both of these are ideal for small deployments but are not suited if you want to manage multiple deployments on multiple instances.
+The ways to deploy code to Akash have been via a desktop app,
+[Akashlytics Deploy](https://github.com/Akashlytics/akashlytics-deploy); a web app,
+[Akash Deploy](https://github.com/spacepotahto/akash-deploy-ui); and the
+[native command-line interface](https://docs.akash.network/guides/cli). All are ideal for
+small-scale deployments but aren’t suited if you want to orchestrate multiple deployments across the
+network.
 
-This tool was created by our team to deploy a Massive testnet to the Akash infrastructure and uses the Akash command line interface to allow automated mass deployments, 
-it will fill all selected instances and close any instances that have become invalid. The app will also keep a list of "Bad" instances in order to maximize deployments.
+Akash Mass Deploy was created to run a [Massive](https://joinmassive.com/) testnet on Akash
+infrastructure and can be used to automate similar mass deployments.
 
 ## How it works
 It connects to linux machine with akash installed via ssh, uses provided certificate and wallet to manage akash deployments. User specifies his yml and his configuration for deployment then uses the tool to create and manage them. There is also list of bad machines that is kept in bad.txt when submiting yml file fails multiple time for same deployment(it's done since there are currently non-working machines on network)
