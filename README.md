@@ -1,5 +1,7 @@
-## What is Akash deployment tool	
-It's console utility for mass deployment on the akash network. 
+# Akash Mass Deploy
+
+Akash Mass Deploy is a console utility for managing multiple deployments on the Akash network.
+
 ## Why was it created
 
 There are two ways to currently deploy code to Akash, the Akashlytics deploy tool and the Akash command line tool. Both of these are ideal for small deployments but are not suited if you want to manage multiple deployments on multiple instances.
