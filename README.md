@@ -28,9 +28,10 @@ It connects to linux machine with akash installed via ssh, uses provided certifi
 
  - since it's experimental tool, it's currently not supports paging and
    has limits of 500 instances that can be controlled at once
- - password managment is currently done for file as supplying user
-   password directly
+ - password managment is currently done for "file" as supplying user
+   password directly to bash or for "os" with prompt on first usage
  - currently almost all calls have up to 3 retries for bad cases such as overloaded node or bad networks, but there are still possibilities of failed deployments due of number of external factors   
+ - it has been developed in monodevelop for ubuntu and has not been tested on windows
 ## Preparation
 
  - install akash on system
