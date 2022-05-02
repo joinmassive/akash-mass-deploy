@@ -42,7 +42,7 @@ The deployment mode is determined by one of the following command-line arguments
 * `info`      – returns the state of all deployments
 * `closedead` – closes all nonfunctioning deployments
 
-## Current limitations 
+## Limitations
 
  - since it's experimental tool, it's currently not supports paging and
    has limits of 500 instances that can be controlled at once
@@ -50,7 +50,8 @@ The deployment mode is determined by one of the following command-line arguments
    password directly to bash or for "os" with prompt on first usage
  - currently almost all calls have up to 3 retries for bad cases such as overloaded node or bad networks, but there are still possibilities of failed deployments due of number of external factors   
  - it has been developed in monodevelop for ubuntu and has not been tested on windows
-## Short information about classes in source code
+
+## C# class details
 
  - EnvVarsReplacer - is a class that evaluates all variables in bash(initially there were a lot of them, I've simplified so it just precaches them all for future uses)
  - Main part is Akash - it does ssh connection to localhost, group commands together and sends them, gets errors/results and print them
