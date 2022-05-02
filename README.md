@@ -33,14 +33,14 @@ of providers that fail repeatedly for the same configuration.
 
 ## Usage
 
-The app’s behavior is modulated by one of the following command-line arguments:
+The deployment mode is determined by one of the following command-line arguments:
 
 * `[none]`    – creates the number of deployments, `CREATE_DEPLOYMENTS`, with the number of cores
                 per deployment, `DEFAULT_CORES`, given by the `config.js` file
-* `closedead` – closes all nonworking deployments and computes the amount of remaining uAKT
-* `deposits`  – tops all active deployments up, to 5 AKT
-* `manifests` – updates all active deployments with the `deploy.yml` file
-* `info`      – outputs data about all deployments
+* `closedead` – closes all nonfunctioning deployments
+* `deposits`  – tops all active deployments up, to 5 AKT currently
+* `manifests` – updates all active deployments with the current `deploy.yml` file
+* `info`      – returns the state of all deployments
 
 ## Current limitations 
 
