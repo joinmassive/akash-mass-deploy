@@ -249,7 +249,7 @@ namespace akash_dep
                 Instance inst = data.inst;
                 if (!inst.CheckLease()) continue; // Must load all lease data
 
-                long numInstances = GetNumInstFromDepJS(dep); // Correct filling require correct manifest
+                long numInstances = GetNumInstFromDepJS(dep); // Correct filling requires correct manifest
 
                 inst.PrepareYml(numInstances); // Prepare new manifest
 

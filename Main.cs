@@ -98,7 +98,7 @@ namespace akash_dep
             if (numParams == 1)
             {
                 lst.Query();
-                var vars= args[0];
+                var vars = args[0];
 
                 if (vars == "closedead")
                 {
