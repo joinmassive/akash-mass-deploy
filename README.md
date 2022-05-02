@@ -24,6 +24,14 @@ Deployments are created with the user-provided Akash wallet, certificate, and co
 active deployments are maximized by closing any that become stale and maintaining an exclusion list
 of providers that fail repeatedly for the same configuration.
 
+## Prerequisites
+
+The following elements are required:
+
+* Akash installed on the target Linux instance
+* An Akash wallet set up
+* A certificate for the wallet published on the blockchain
+
 ## Main functions
  - **Invoking without arguments** - will create number of deployments specified in js file from "CREATE_DEPLOYMENTS" field with "DEFAULT_CORES" of cores per each deployment. It will
  - **closedead** - will close all unfinished/invalid instances and return money from them to the wallet + also will calculate amount of uakt that is currently being spent
@@ -39,12 +47,6 @@ of providers that fail repeatedly for the same configuration.
    password directly to bash or for "os" with prompt on first usage
  - currently almost all calls have up to 3 retries for bad cases such as overloaded node or bad networks, but there are still possibilities of failed deployments due of number of external factors   
  - it has been developed in monodevelop for ubuntu and has not been tested on windows
-## Preparation
-
- - install akash on system
- - generate wallet
- - generate certificate for wallet
- - upload it to the network
 ## Short information about classes in source code
 
  - EnvVarsReplacer - is a class that evaluates all variables in bash(initially there were a lot of them, I've simplified so it just precaches them all for future uses)
