@@ -15,8 +15,15 @@ across the network.
 The Akash Mass Deploy tool was created to run a [Massive](https://joinmassive.com/) testnet on Akash
 infrastructure and can be used to automate similar mass deployments.
 
-## How it works
-It connects to linux machine with akash installed via ssh, uses provided certificate and wallet to manage akash deployments. User specifies his yml and his configuration for deployment then uses the tool to create and manage them. There is also list of bad machines that is kept in bad.txt when submiting yml file fails multiple time for same deployment(it's done since there are currently non-working machines on network)
+## Description
+
+Akash Mass Deploy extends the command-line interface by connecting to an Akash-enabled Linux
+instance via SSH. The Akash network will be saturated with deployments up to the specified capacity,
+using the populated Akash wallet, certificate, and configuration files.
+
+Active deployments are maximized by closing any that become invalid and maintaining a file,
+`bad.txt`, with persistently nonworking providers.
+
 ## Main functions
  - **Invoking without arguments** - will create number of deployments specified in js file from "CREATE_DEPLOYMENTS" field with "DEFAULT_CORES" of cores per each deployment. It will
  - **closedead** - will close all unfinished/invalid instances and return money from them to the wallet + also will calculate amount of uakt that is currently being spent
