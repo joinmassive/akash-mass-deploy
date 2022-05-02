@@ -31,13 +31,17 @@ of providers that fail repeatedly for the same configuration.
 3. [Create and publish a certificate](https://github.com/ovrclk/docs/blob/master/guides/cli.md#part-6-create-your-certificate)
    for the wallet.
 
-## Main functions
- - **Invoking without arguments** - will create number of deployments specified in js file from "CREATE_DEPLOYMENTS" field with "DEFAULT_CORES" of cores per each deployment. It will
- - **closedead** - will close all unfinished/invalid instances and return money from them to the wallet + also will calculate amount of uakt that is currently being spent
- - **deposits** - will fill instances with funds, currently refill so they will equal 5akt
- - **manifests** - will update all machines with new yml deployment file, number of cores & name will be regenerated
- - **info** - will show additional info for all created machines
- 
+## Usage
+
+The app can be invoked with one of the following arguments:
+
+* `[none]`    – creates the number of deployments, `CREATE_DEPLOYMENTS`, with the number of cores
+                per deployment, `DEFAULT_CORES`, specified in the `config.js` file
+* `closedead` – closes all invalid deployments and calculates the closing uAKT balance
+* `deposits`  – tops all active deployments up to 5 AKT
+* `manifests` – updates all active deployments with the `deploy.yml` file
+* `info`      – displays data about all deployments
+
 ## Current limitations 
 
  - since it's experimental tool, it's currently not supports paging and
