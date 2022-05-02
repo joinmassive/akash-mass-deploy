@@ -8,9 +8,8 @@ Akash Mass Deploy is a console app for managing a large number of deployments on
 The tools available for deploying workloads to Akash, a desktop app,
 [Akashlytics Deploy](https://github.com/Akashlytics/akashlytics-deploy); a web app,
 [Akash Deploy](https://github.com/spacepotahto/akash-deploy-ui); and the
-[native command-line interface](https://github.com/ovrclk/docs/blob/master/general-commands.md), are
-ideal for single deployments but aren’t suited to orchestrating multiple deployments across the
-network.
+[native command-line interface](https://github.com/ovrclk/akash), are ideal for single deployments
+but aren’t suited to orchestrating multiple deployments across the network.
 
 The Akash Mass Deploy tool was developed to run a [Massive](https://joinmassive.com/) testnet on
 Akash infrastructure and can be used to automate similar mass deployments.
@@ -26,10 +25,10 @@ of providers that fail repeatedly for the same configuration.
 
 ## Configuration
 
-1. [Install Akash](https://docs.akash.network/guides/cli/detailed-steps/part-1.-install-akash) on
+1. [Install Akash](https://github.com/ovrclk/docs/blob/master/guides/cli.md#part-1-install-akash) on
    the target Linux instance.
-2. [Create an Akash wallet](https://docs.akash.network/token/keplr).
-3. [Create and publish a certificate](https://docs.akash.network/guides/cli/detailed-steps/part-6.-create-your-certificate)
+2. [Create an Akash wallet](https://github.com/ovrclk/docs/blob/master/token/keplr.md).
+3. [Create and publish a certificate](https://github.com/ovrclk/docs/blob/master/guides/cli.md#part-6-create-your-certificate)
    for the wallet.
 
 ## Main functions
