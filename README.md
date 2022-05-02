@@ -15,14 +15,13 @@ across the network.
 The Akash Mass Deploy tool was created to run a [Massive](https://joinmassive.com/) testnet on Akash
 infrastructure and can be used to automate similar mass deployments.
 
-## Description
+## Overview
 
-Akash Mass Deploy extends the command-line interface by connecting to an Akash-enabled Linux
-instance via SSH. The Akash network will be saturated with deployments up to the given limit, using
-the required Akash wallet, certificate, and configuration files.
-
-Active deployments are maximized by closing any that become invalid and maintaining a file,
-`bad.txt`, with persistently nonfunctioning providers.
+Akash Mass Deploy extends the command-line interface with coordination functions by connecting to an
+Akash-loaded Linux instance over SSH. Deployments are created using the Akash wallet,
+certificate, and configuration files to be completed. Active deployments are maximized by closing
+any that become stale and maintaining a list of providers to exclude for repeatedly failing on the
+configuration.
 
 ## Main functions
  - **Invoking without arguments** - will create number of deployments specified in js file from "CREATE_DEPLOYMENTS" field with "DEFAULT_CORES" of cores per each deployment. It will
