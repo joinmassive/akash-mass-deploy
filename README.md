@@ -64,4 +64,21 @@ It currently generates a lot of files for debugging.
 Currently it just consumes the YML renames the name of the server to random value and does the submission + checks dead/deposit to the instances
  - InstanceList - is the class for queryies list of instances, checking their deployment, filling them with money
  - Program - is currently main class in that utility
- 
+
+## License
+
+Copyright 2022 Massive Computing, Inc.
+
+This program is free software, excluding the brand features identified in the
+[Exceptions](#exceptions) below: you can redistribute it and/or modify it under the terms of the GNU
+General Public License as published by the Free Software Foundation, either version 3 of the
+License, or (at your option) any later version.
+
+This program is distributed in the hope that it will be useful, but WITHOUT ANY WARRANTY; without
+even the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
+[GNU General Public License](https://www.gnu.org/licenses/gpl.html) for more details.
+
+## Exceptions
+
+The Massive logos, trademarks, domain names, and other brand features used in this program cannot be
+reused without permission and no license is granted thereto.
