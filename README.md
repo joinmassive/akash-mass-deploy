@@ -24,13 +24,14 @@ Deployments are created with the user-provided Akash wallet, certificate, and co
 active deployments are maximized by closing any that become stale and maintaining an exclusion list
 of providers that fail repeatedly for the same configuration.
 
-## Prerequisites
+## Setup
 
-The following items are required:
-
-* Akash installed on the target Linux instance
-* An Akash wallet set up
-* A certificate for the wallet published on the blockchain
+1. [Install Akash](https://docs.akash.network/guides/cli/streamlined-steps/install-the-akash-client)
+   on the target Linux instance.
+2. [Create an Akash wallet](https://docs.akash.network/token/keplr).
+3. [Create a certificate](https://docs.akash.network/guides/cli/streamlined-steps/create-akash-account-and-certificate)
+   for the wallet.
+4. Publish the certificate to the network.
 
 ## Main functions
  - **Invoking without arguments** - will create number of deployments specified in js file from "CREATE_DEPLOYMENTS" field with "DEFAULT_CORES" of cores per each deployment. It will
