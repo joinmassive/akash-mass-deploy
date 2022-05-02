@@ -26,7 +26,7 @@ of providers that fail repeatedly for the same configuration.
 
 ## Prerequisites
 
-The following elements are required:
+The following items are required:
 
 * Akash installed on the target Linux instance
 * An Akash wallet set up
