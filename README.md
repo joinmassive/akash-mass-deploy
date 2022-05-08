@@ -19,11 +19,11 @@ Akash infrastructure and can be used to automate similar mass deployments.
 Akash Mass Deploy extends the command-line interface to add coordination functions by connecting to
 an Akash-loaded Linux instance over SSH.
 
-Deployments are created with the user-provided Akash wallet, certificate, and configuration files;
-active deployments are maximized by closing any that become stale and maintaining an exclusion list
-of providers that fail repeatedly for the same configuration.
+Deployments are created with the user-supplied Akash wallet, certificate, and configuration files;
+active deployments are maximized by closing any that become stale and by maintaining an exclusion
+list of providers that fail repeatedly for the deployment configuration.
 
-## Configuration
+## Configuring
 
 1. [Install Akash](https://github.com/ovrclk/docs/blob/master/guides/cli.md#part-1-install-akash) on
    the target Linux instance.
