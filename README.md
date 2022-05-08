@@ -44,12 +44,13 @@ The deployment mode is determined by one of the following command-line arguments
 
 ## Limitations
 
- - since it's experimental tool, it's currently not supports paging and
-   has limits of 500 instances that can be controlled at once
- - password managment is currently done for "file" as supplying user
-   password directly to bash or for "os" with prompt on first usage
- - currently almost all calls have up to 3 retries for bad cases such as overloaded node or bad networks, but there are still possibilities of failed deployments due of number of external factors   
- - it has been developed in monodevelop for ubuntu and has not been tested on windows
+Akash Mass Deploy is still experimental and, in particular:
+
+* can control no more than 500 deployments simultaneously and doesn’t support paging
+* prompts for a user password on first run, via dialog box if the keyring backend is set to (the
+  default) `os` or via command line if set to `file`
+* retries most Akash commands up to 3x but doesn’t account for every failure due to external factors
+* was developed in MonoDevelop on Ubuntu and hasn’t been tested on Windows
 
 ## C# class details
 
