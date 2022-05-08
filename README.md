@@ -1,6 +1,6 @@
 # Akash Mass Deploy
 
-Akash Mass Deploy is a console app for managing a large number of deployments on the
+**Akash Mass Deploy** is a console app for managing a large number of deployments on the
 [Akash](https://akash.network/) network.
 
 ## Motivation
@@ -11,13 +11,13 @@ The tools available for deploying workloads to Akash, a desktop app,
 [native command-line interface](https://github.com/ovrclk/akash), are ideal for single deployments
 but aren’t suited to orchestrating multiple deployments across the network.
 
-The Akash Mass Deploy tool was developed to run a [Massive](https://joinmassive.com/) testnet on
+The **Akash Mass Deploy** tool was developed to run a [Massive](https://joinmassive.com/) testnet on
 Akash infrastructure and can be used to automate similar mass deployments.
 
 ## Summary
 
-Akash Mass Deploy extends the command-line interface to add coordination functions by connecting to
-an Akash-loaded Linux instance over SSH.
+**Akash Mass Deploy** extends the command-line interface to add coordination functions by connecting
+to an Akash-loaded Linux instance over SSH.
 
 Deployments are created with the user-supplied Akash wallet, certificate, and configuration files;
 active deployments are maximized by closing any that become stale and by maintaining an exclusion
@@ -44,7 +44,7 @@ The deployment mode is determined by one of the following command-line arguments
 
 ## Limitations
 
-Akash Mass Deploy is experimental at the moment and, in particular:
+**Akash Mass Deploy** is experimental at the moment and, in particular:
 
 * Can control no more than 500 simultaneous deployments and doesn’t support paging
 * Prompts for a password on first run, via dialog box if `AKASH_KEYRING_BACKEND` is set to (the
