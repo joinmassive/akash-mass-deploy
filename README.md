@@ -39,8 +39,8 @@ The deployment mode is determined by one of the following command-line arguments
                 per deployment, `DEFAULT_CORES`, given by the `config.js` file
 * `manifests` – updates all active deployments with the current `deploy.yml` file
 * `deposits`  – tops all active deployments up, to 5 AKT currently
-* `info`      – returns the state of all deployments
 * `closedead` – closes all nonfunctioning deployments
+* `info`      – returns the state of all deployments
 
 ## Limitations
 
