@@ -35,8 +35,8 @@ list of providers that fail repeatedly for the deployment configuration.
 
 The deployment mode is determined by one of the following command-line arguments:
 
-* `[none]`    – creates the number of deployments, `CREATE_DEPLOYMENTS`, with the number of cores
-                per deployment, `DEFAULT_CORES`, given by the `config.js` file
+* `[none]`    – creates the number of deployments `CREATE_DEPLOYMENTS` with the number of cores per
+                deployment `DEFAULT_CORES` given by the `config.js` file
 * `manifests` – updates all active deployments with the current `deploy.yml` file
 * `deposits`  – tops all active deployments up, to 5 AKT currently
 * `closedead` – closes all nonfunctioning deployments
