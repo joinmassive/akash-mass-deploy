@@ -387,20 +387,19 @@ namespace akash_dep
         {
             if (m_currentLeases == null || m_currentLeases.Count == 0)
             {
-                Console.WriteLine("invoking getLeaseState without checkLeast, no info provided");
-                return "dead";
+                Console.WriteLine("getting lease state failed, no leases");
+                return "none";
             }
 
             try
             {
                 JToken lease = m_currentLeases[0]["lease"];
-                JToken leaseID = lease["lease_id"];
                 String lease_state = lease["state"].ToString();
                 return lease_state;
             }
             catch
             {
-                return "none";
+                return "unknown";
             }
         }
 
@@ -419,7 +418,7 @@ namespace akash_dep
             }
             catch
             {
-                return "none";
+                return "unknown";
             }
         }
 

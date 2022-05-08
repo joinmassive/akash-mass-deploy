@@ -132,9 +132,9 @@ namespace akash_dep
             }
         }
 
-        public bool CloseDead()
+        public bool CleanDeployments()
         {
-            var progress = new ProgressConsole(m_instances.Count, "CloseDead");
+            var progress = new ProgressConsole(m_instances.Count, "CleanDeployments");
 
             long totalBidsBalance = 0;
 
@@ -197,7 +197,7 @@ namespace akash_dep
                 numClosed++;
             }
 
-            Console.WriteLine("closing dead finished closed: " + numClosed);
+            Console.WriteLine("cleaning deployments finished, closed: " + numClosed);
             Console.WriteLine("total active balance " + totalBidsBalance + "uakt");
             return true;
         }

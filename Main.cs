@@ -100,9 +100,9 @@ namespace akash_dep
                 lst.Query();
                 var vars = args[0];
 
-                if (vars == "closedead")
+                if (vars == "cleanup")
                 {
-                    lst.CloseDead();
+                    lst.CleanDeployments();
                 }
                 else if (vars == "deposits")
                 {
