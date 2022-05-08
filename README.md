@@ -44,13 +44,14 @@ The deployment mode is determined by one of the following command-line arguments
 
 ## Limitations
 
-Akash Mass Deploy is still experimental and, in particular:
+Akash Mass Deploy is experimental at the moment and, in particular:
 
-* can control no more than 500 deployments simultaneously and doesn’t support paging
-* prompts for a user password on first run, via dialog box if the keyring backend is set to (the
-  default) `os` or via command line if set to `file`
-* retries most Akash commands up to 3x but doesn’t account for every failure due to external factors
-* was developed in MonoDevelop on Ubuntu and hasn’t been tested on Windows
+* can control no more than 500 simultaneous deployments and doesn’t support paging
+* prompts for a login password on first run, via dialog box if `AKASH_KEYRING_BACKEND` is set to
+  (the default) `os` or via command line if set to `file`
+* retries most Akash commands up to 3x but still doesn’t account for every intermittent failure
+  mode, like that involving connectivity issues
+* has been developed with MonoDevelop in Linux and hasn’t been tested in Windows
 
 ## C# class details
 
