@@ -73,12 +73,12 @@ Copyright 2022 Massive Computing, Inc.
 
 This program is free software, excluding the brand features identified in the
 [Exceptions](#exceptions) below: you can redistribute it and/or modify it under the terms of the GNU
-General Public License as published by the Free Software Foundation, either version 3 of the
+Affero General Public License as published by the Free Software Foundation, either version 3 of the
 License, or (at your option) any later version.
 
 This program is distributed in the hope that it will be useful, but WITHOUT ANY WARRANTY; without
 even the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
-[GNU General Public License](https://www.gnu.org/licenses/gpl.html) for more details.
+[GNU Affero General Public License](https://www.gnu.org/licenses/agpl-3.0.html) for more details.
 
 ## Exceptions
 
