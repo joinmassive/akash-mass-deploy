@@ -529,7 +529,7 @@ namespace akash_dep
             String yam_str = Akash.Send();
 
 
-            if (yam_str.Contains("status: PASS")) // Fails for converting to json, so we query directly
+            if (yam_str.Contains("status:") && yam_str.Contains("PASS")) // Fails for converting to json, so we query directly
             {
                 Console.WriteLine("sending manifest ok");
                 File.WriteAllText("manifest.txt", yam_str);
@@ -537,7 +537,7 @@ namespace akash_dep
             }
             else
             {
-                Console.WriteLine("sending manifest failed");
+                Console.WriteLine("sending manifest failed: \n"+yam_str);
             }
             return false;
         }
