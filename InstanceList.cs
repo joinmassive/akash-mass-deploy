@@ -13,6 +13,7 @@ namespace akash_dep
 
     public class InstanceList
     {
+
         Wallet m_wallet;
         List<InstanceData> m_instances = new List<InstanceData>();
 
@@ -27,10 +28,10 @@ namespace akash_dep
             exec = m_wallet.Prepare(exec);
         }
 
+
         const int kMaxRetry = 3;
 
         public delegate bool RetryFunType();
-
         bool RetryFun(RetryFunType fun)
         {
             for (int i = 0; i < kMaxRetry; i++)
@@ -38,7 +39,6 @@ namespace akash_dep
                 bool ok = fun();
                 if (ok) return true;
             }
-
             return false;
         }
 
@@ -49,7 +49,7 @@ namespace akash_dep
             String exec;
             exec = "query deployment list --node $AKASH_NODE --owner $AKASH_ACCOUNT_ADDRESS " +
                 "--chain-id $AKASH_CHAIN_ID --output json --state active --count-total --limit 500";
-
+                
             UpdateExec(ref exec);
             Akash.PushAkash(exec);
 
@@ -57,12 +57,12 @@ namespace akash_dep
             File.WriteAllText("deployments.txt", res);
 
             JToken js = Converters.STRtoJS(res);
-
             if (js == null)
             {
                 Console.WriteLine("invalid js");
                 return false;
             }
+
 
             var deployments = (JArray)js["deployments"];
             long numSubDeployments = 0;
@@ -71,9 +71,12 @@ namespace akash_dep
 
             m_instances.Clear();
 
+            //var progress = new ProgressConsole(deployments.Count,"query deployments");
             // parse and fill data
             foreach (var dep in deployments)
             {
+                //progress.Increment();
+
                 JToken depjs = dep["deployment"];
                 Instance inst = new Instance(ref m_wallet);
                 InstanceData data = new InstanceData();
@@ -83,7 +86,7 @@ namespace akash_dep
                 long numSubDeps = GetNumInstFromDepJS(dep);
 
                 m_instances.Add(data);
-                if (!inst.LoadFromDepJson(depjs)) continue;
+                if(!inst.LoadFromDepJson(depjs)) continue;
 
                 JToken escrow = dep["escrow_account"];
                 JToken balance = escrow["balance"];
@@ -110,8 +113,11 @@ namespace akash_dep
 
         public void Stats()
         {
+            //var progress = new ProgressConsole(m_instances.Count, "Stats");
             foreach (var data in m_instances)
             {
+                //progress.Increment();
+
                 var dep = data.js;
                 JToken depjs = dep["deployment"];
                 String state = depjs["state"].ToString();
@@ -128,18 +134,17 @@ namespace akash_dep
                 long numSubDeps = GetNumInstFromDepJS(dep);
 
                 Instance inst = data.inst;
-                Console.WriteLine(inst.m_dseq + "->" + state + " / " + money_state + " balance " + balance_akt + " transfered " + transfer_akt + " subs " + numSubDeps);
+                Console.WriteLine(inst.m_dseq + "->" + state + " / " + money_state + " balance " + balance_akt + " transfered " + transfer_akt+" subs "+ numSubDeps);
             }
         }
 
-        public bool CleanDeployments()
+        public bool CloseDead()
         {
-            var progress = new ProgressConsole(m_instances.Count, "CleanDeployments");
+            var progress = new ProgressConsole(m_instances.Count, "CloseDead");
 
             long totalBidsBalance = 0;
 
             int numClosed = 0;
-
             foreach (var data in m_instances)
             {
                 progress.Increment();
@@ -150,39 +155,42 @@ namespace akash_dep
                 JToken escrow = dep["escrow_account"];
                 String money_state = escrow["state"].ToString();
 
+                //if (state == "active") continue;
+                //if (money_state == "open") continue; // Ignore those closed because of the lack of funds
                 Instance inst = data.inst;
 
                 bool need2close = false;
 
-                if (!inst.CheckLease())
+                if(!inst.CheckLease())
                 {
                     int num = inst.GetNumLeases();
                     Console.WriteLine(inst.m_dseq + " num leases " + num);
-
-                    if (num == 0)
+                    if (num==0)
                     {
                         need2close = true;
                     }
                 }
 
+
+
                 String lease_state = inst.GetLeaseState();
                 JToken lease_price = inst.GetLeasePrice();
 
-                long curPrice = 0;
-
-                if (lease_price != null)
+                double curPrice = 0;
+                if(lease_price!=null)
                 {
                     curPrice += Converters.UAKTJSget(lease_price);
-                    totalBidsBalance += curPrice;
+                    totalBidsBalance += (long)curPrice;
                 }
                 else
                 {
                     Console.WriteLine("err no bid price!");
                 }
 
-                Console.WriteLine(inst.m_dseq + " state: " + state + " money: " + money_state + " lease: " + lease_state + " price " + curPrice + "uakt");
 
-                if (lease_state == "closed")
+                Console.WriteLine(inst.m_dseq + " state: " + state + " money: " + money_state + " lease: " + lease_state+" price "+ curPrice+"uakt");
+
+                if(lease_state=="closed")
                 {
                     need2close = true;
                 }
@@ -192,12 +200,12 @@ namespace akash_dep
                     continue;
                 }
 
+
                 if (!RetryFun(() => inst.Close())) continue;
 
                 numClosed++;
             }
-
-            Console.WriteLine("cleaning deployments finished, closed: " + numClosed);
+            Console.WriteLine("closing dead finished closed: "+numClosed);
             Console.WriteLine("total active balance " + totalBidsBalance + "uakt");
             return true;
         }
@@ -205,7 +213,6 @@ namespace akash_dep
         public void DoDeposits(long refillAmount)
         {
             var progress = new ProgressConsole(m_instances.Count, "DoDeposits");
-
             foreach (var data in m_instances)
             {
                 progress.Increment();
@@ -221,7 +228,7 @@ namespace akash_dep
 
                 JToken balance = escrow["balance"];
                 var balanceAkt = Converters.UAKTJStoAKT(balance);
-                if (balanceAkt >= refillAmount || balanceAkt < 0) continue; // Skip filled or invalid
+                if (balanceAkt >= refillAmount || balanceAkt<0) continue; // Skip filled or invalid
 
                 Instance inst = data.inst;
                 double depAmount = refillAmount - balanceAkt; // Refill 5akt
@@ -229,6 +236,8 @@ namespace akash_dep
                 RetryFun(() => inst.Deposit(Converters.AKTtoUAKT(depAmount)));
             }
         }
+
+
 
         public void UpdateManifests()
         {
@@ -249,15 +258,16 @@ namespace akash_dep
                 Instance inst = data.inst;
                 if (!inst.CheckLease()) continue; // Must load all lease data
 
-                long numInstances = GetNumInstFromDepJS(dep); // Correct filling requires correct manifest
+                long numInstances = GetNumInstFromDepJS(dep);// Correct filling require correct manifest
 
                 inst.PrepareYml(numInstances); // Prepare new manifest
 
                 String lease_state = inst.GetLeaseState();
-                if (lease_state == "closed") continue; // Ignore closed leases
+                if (lease_state == "closed") continue; //Ignore closed leases
 
                 if (!RetryFun(() => inst.SendManifestEvent())) continue;
                 if (!RetryFun(() => inst.SendManifest())) continue;
+
             }
         }
     }

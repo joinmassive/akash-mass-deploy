@@ -7,6 +7,7 @@ using System.Linq;
 
 namespace akash_dep
 {
+
     public static class Converters
     {
         public static String YAMLtoJSON(String yml)
@@ -27,14 +28,12 @@ namespace akash_dep
                 return null;
             }
         }
-
         public static JToken YAMLtoJSONToken(String yml)
         {
             String js_raw = YAMLtoJSON(yml);
             if (js_raw == null) return null;
             return STRtoJS(js_raw);
         }
-
         public static JToken STRtoJS(String js)
         {
             try
@@ -46,30 +45,25 @@ namespace akash_dep
                 return null;
             }
         }
-
-        public static double UAKTtoAKT(long uakt)
+        public static double UAKTtoAKT(double uakt)
         {
             return uakt / Math.Pow(10, 6);
         }
-
-        public static long AKTtoUAKT(double akt)
+        public static double AKTtoUAKT(double akt)
         {
-            return (long)Math.Round(akt * Math.Pow(10, 6));
+            return Math.Round(akt * Math.Pow(10, 6));
         }
-
-        public static long UAKTJSget(JToken js)
+        public static double UAKTJSget(JToken js)
         {
             try
             {
                 String type = js["denom"].ToString();
-
                 if (type != "uakt")
                 {
                     Console.WriteLine("invalid denom " + type + " in " + js.ToString());
                     return 0;
                 }
-
-                long denom = js["amount"].ToObject<long>();
+                var denom = js["amount"].ToObject<double>();
                 return denom;
             }
             catch
@@ -78,12 +72,11 @@ namespace akash_dep
                 return 0;
             }
         }
-
         public static double UAKTJStoAKT(JToken js)
         {
             try
             {
-                long amt = UAKTJSget(js);
+                var amt = UAKTJSget(js);
                 return UAKTtoAKT(amt);
             }
             catch
@@ -101,5 +94,7 @@ namespace akash_dep
             return new string(Enumerable.Repeat(chars, length)
                 .Select(s => s[random.Next(s.Length)]).ToArray());
         }
+
     }
+
 }
