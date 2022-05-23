@@ -113,6 +113,8 @@ namespace akash_dep
 
         public void Stats()
         {
+            Dictionary<long, long> MachineStats = new Dictionary<long, long>();
+
             //var progress = new ProgressConsole(m_instances.Count, "Stats");
             foreach (var data in m_instances)
             {
@@ -135,6 +137,22 @@ namespace akash_dep
 
                 Instance inst = data.inst;
                 Console.WriteLine(inst.m_dseq + "->" + state + " / " + money_state + " balance " + balance_akt + " transfered " + transfer_akt+" subs "+ numSubDeps);
+
+                long value = 0;
+                if (MachineStats.TryGetValue(numSubDeps, out value))
+                {
+                    MachineStats[numSubDeps]++;
+                }
+                else
+                {
+                    MachineStats.Add(numSubDeps, 1);
+                }
+
+            }
+
+            foreach(var inst in MachineStats)
+            {
+                Console.WriteLine("CPUs: " + inst.Key + " count " + inst.Value);
             }
         }
 
