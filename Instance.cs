@@ -251,7 +251,10 @@ namespace akash_dep
                 }
 
                 JToken bidPriceJS = bid["price"];
-                long curPrice = bidPriceJS["amount"].ToObject<long>();
+                //long curPrice = bidPriceJS["amount"].ToObject<double>();
+                double curPrice = Converters.UAKTJSget(bidPriceJS);
+
+
                 if (curPrice > m_wallet.GetNumAKT() || curPrice > AKASH_PRICE_LIMIT)
                 {
                     Console.WriteLine("too expensive " + curPrice + "uakt");
@@ -272,7 +275,9 @@ namespace akash_dep
                     continue;
                 }
 
-                long bestPrice = curBest["price"]["amount"].ToObject<long>();
+                //long bestPrice = curBest["price"]["amount"].ToObject<long>();
+                JToken bestPriceJS = curBest["price"];
+                double bestPrice = Converters.UAKTJSget(bestPriceJS);
 
                 if (curPrice < bestPrice)
                 {
@@ -287,7 +292,9 @@ namespace akash_dep
             }
 
             String leaseID = curBest["bid_id"]["provider"].ToString();
-            long price = curBest["price"]["amount"].ToObject<long>();
+
+            JToken priceJS = curBest["price"];
+            double price = Converters.UAKTJSget(priceJS);
 
             Console.WriteLine("good lease price " + price + "aukt");
             Console.WriteLine("good lease was found id: " + leaseID);

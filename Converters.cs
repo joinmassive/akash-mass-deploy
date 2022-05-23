@@ -57,14 +57,17 @@ namespace akash_dep
         {
             try
             {
-                String type = js["denom"].ToString();
-                if (type != "uakt")
+                if(js.Contains("denom"))
                 {
-                    Console.WriteLine("invalid denom " + type + " in " + js.ToString());
-                    return 0;
+                    String type = js["denom"].ToString();
+                    if (type != "uakt")
+                    {
+                        Console.WriteLine("invalid denom " + type + " in " + js.ToString());
+                        return 0;
+                    }
                 }
-                var denom = js["amount"].ToObject<double>();
-                return denom;
+                var amt = js["amount"].ToObject<double>();
+                return amt;
             }
             catch
             {
