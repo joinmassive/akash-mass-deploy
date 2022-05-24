@@ -5,7 +5,6 @@
 "AKASH_YML_EDITED_PATH":"full path to deploy_submit.yml",
 "AKASH_HOME":"~/.akash",
 "GAS_CONFIG":"--gas-prices=\"0.025uakt\" --gas=\"auto\" --gas-adjustment=1.25",
-"AKASH_PRICE_LIMIT":180,
 "AKASH_NODE":"http://135.181.181.122:28957",
 "AKASH_EXE":"/bin/akash",
 "AKASH_KEYRING_BACKEND":"os",
@@ -17,5 +16,8 @@
 "SSH_LOGIN":"your ssh login",
 "SSH_PASS":"your ssh pass",
 "CREATE_DEPLOYMENTS":0,
-"DEFAULT_CORES":4
+"DEFAULT_CORES":4,
+"ONLY_PREVIEW":true,
+"AKASH_PRICE_LIMIT_CORE":1,
+"AKT_PRICE":0.44873900
 }
