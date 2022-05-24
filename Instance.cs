@@ -185,10 +185,10 @@ namespace akash_dep
             exec = Prepare(exec);
         }
 
-        public bool Create(long numInstances)
+        public bool Create(long numCores)
         {
-            PrepareYml(numInstances);
-            Console.WriteLine("creating new deployment, inst "+numInstances);
+            PrepareYml(numCores);
+            Console.WriteLine("creating new deployment, cores "+numCores);
 
             String exec = "tx deployment create \"" + AKASH_YML_EDITED_PATH + "\" " +
                 "--from $AKASH_KEY_NAME --node $AKASH_NODE --chain-id $AKASH_CHAIN_ID --keyring-backend $AKASH_KEYRING_BACKEND " +
@@ -276,15 +276,15 @@ namespace akash_dep
                 Console.WriteLine(Converters.UAKTtoUSDMonthly(curPrice));*/
 
                 double curPriceMonthly = Converters.UAKTtoUSDMonthly(curPrice);
-
+                var curPriceMonthlyFmt = Converters.DoubleToStr2Dig(curPriceMonthly);
                 if (curPriceMonthly > AKASH_PRICE_LIMIT_CORE)
                 {
-                    Console.WriteLine("too expensive " + curPriceMonthly + "$/core");
+                    Console.WriteLine("too expensive " + curPriceMonthlyFmt + "$/core");
                     continue;// our of money or too expensive for us
                 }
                 else
                 {
-                    Console.WriteLine("got bid " + curPriceMonthly + "$/core");
+                    Console.WriteLine("got bid " + curPriceMonthlyFmt + "$/core");
                 }
 
                 String curLeaseID = bid["bid_id"]["provider"].ToString();
@@ -318,7 +318,8 @@ namespace akash_dep
             JToken priceJS = curBest["price"];
             double price = Converters.UAKTJSget(priceJS);
 
-            Console.WriteLine("good lease price " + Converters.UAKTtoUSDMonthly(price) + "$/core");
+            var priceFmt = Converters.DoubleToStr2Dig(Converters.UAKTtoUSDMonthly(price));
+            Console.WriteLine("good lease price " + priceFmt + "$/core");
             Console.WriteLine("good lease was found id: " + leaseID);
             return leaseID;
         }

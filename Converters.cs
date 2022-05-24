@@ -4,6 +4,7 @@ using Newtonsoft.Json.Linq;
 using System;
 using System.IO;
 using System.Linq;
+using System.Globalization;
 
 namespace akash_dep
 {
@@ -53,6 +54,11 @@ namespace akash_dep
             {
                 return null;
             }
+        }
+
+        public static String DoubleToStr2Dig(double val)
+        {
+            return val.ToString("F", CultureInfo.InvariantCulture);
         }
 
         public static double UAKTtoAKTMonthly(double uakt)

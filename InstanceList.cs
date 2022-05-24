@@ -160,7 +160,7 @@ namespace akash_dep
         {
             var progress = new ProgressConsole(m_instances.Count, "CloseDead");
 
-            long totalBidsBalance = 0;
+            double totalBidsBalance = 0;
 
             int numClosed = 0;
             foreach (var data in m_instances)
@@ -190,7 +190,6 @@ namespace akash_dep
                 }
 
 
-
                 String lease_state = inst.GetLeaseState();
                 JToken lease_price = inst.GetLeasePrice();
 
@@ -198,7 +197,7 @@ namespace akash_dep
                 if(lease_price!=null)
                 {
                     curPrice += Converters.UAKTJSget(lease_price);
-                    totalBidsBalance += (long)curPrice;
+
                 }
                 else
                 {
@@ -206,7 +205,16 @@ namespace akash_dep
                 }
 
                 double perCoreUSD = Converters.UAKTtoUSDMonthly(curPrice);
-                Console.WriteLine(inst.m_dseq + " state: " + state + " money: " + money_state + " lease: " + lease_state+" price "+ perCoreUSD + "$/core");
+
+                long numSubDeps = GetNumInstFromDepJS(dep);
+                if (perCoreUSD>0.0)
+                {
+                    totalBidsBalance += perCoreUSD * numSubDeps;
+                }
+
+
+                Console.WriteLine("cores " + numSubDeps + " " + inst.m_dseq + " state: " + state + " money: " + money_state + 
+                " lease: " + lease_state + " price " + Converters.DoubleToStr2Dig(perCoreUSD) + "$/core");
 
                 if(lease_state=="closed")
                 {
@@ -224,7 +232,7 @@ namespace akash_dep
                 numClosed++;
             }
             Console.WriteLine("closing dead finished closed: "+numClosed);
-            Console.WriteLine("total active balance " + totalBidsBalance + "uakt");
+            Console.WriteLine("total active monthly balance " + Converters.DoubleToStr2Dig(totalBidsBalance) + "$");
             return true;
         }
 
