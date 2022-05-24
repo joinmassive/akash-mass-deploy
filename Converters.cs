@@ -56,9 +56,15 @@ namespace akash_dep
             }
         }
 
+
         public static String DoubleToStr2Dig(double val)
         {
             return val.ToString("F", CultureInfo.InvariantCulture);
+        }
+
+        public static double AKTtoUSD(double akt)
+        {
+            return akt * AKT_PRICE;
         }
 
         public static double UAKTtoAKTMonthly(double uakt)

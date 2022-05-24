@@ -77,7 +77,8 @@ namespace akash_dep
                 m_amount = balance["amount"].ToObject<long>();
 
                 var amount_akt = Converters.UAKTJStoAKT(balance);
-                Console.WriteLine("getting wallet status ok, amount " + amount_akt);
+                double amount_usd = Converters.AKTtoUSD(amount_akt);
+                Console.WriteLine("getting wallet status ok, amount " + Converters.DoubleToStr2Dig(amount_usd) +"$");
             }
             catch
             {

@@ -99,7 +99,8 @@ namespace akash_dep
 
             Console.WriteLine("total deployments " + numDeployments);
             Console.WriteLine("total subMachines " + numSubDeployments);
-            Console.WriteLine("total locked balance: " + totalBalance);
+            double totalBalanceUSD = Converters.AKTtoUSD(totalBalance);
+            Console.WriteLine("total locked balance: " + Converters.DoubleToStr2Dig(totalBalanceUSD) +"$");
             return true;
         }
 
@@ -135,8 +136,14 @@ namespace akash_dep
 
                 long numSubDeps = GetNumInstFromDepJS(dep);
 
+
+                
+
                 Instance inst = data.inst;
-                Console.WriteLine(inst.m_dseq + "->" + state + " / " + money_state + " balance " + balance_akt + " transfered " + transfer_akt+" subs "+ numSubDeps);
+                Console.WriteLine(inst.m_dseq + "->" + state + " / " + 
+                money_state + " balance " + Converters.DoubleToStr2Dig(Converters.AKTtoUSD(balance_akt)) + 
+                    "$ transfered " + Converters.DoubleToStr2Dig(Converters.AKTtoUSD(transfer_akt)) +
+                    "$ cores "+ numSubDeps);
 
                 long value = 0;
                 if (MachineStats.TryGetValue(numSubDeps, out value))
