@@ -15,7 +15,7 @@ namespace akash_dep
         public static String AKASH_YML_EDITED_PATH = "deploy_submit.yml";
         public static String AKASH_HOME = "~/.akash";
         public static String GAS_CONFIG = "--gas-prices=\"0.025uakt\" --gas=\"auto\" --gas-adjustment=1.25";
-        public static long AKASH_PRICE_LIMIT = 180;// no more then this, otherwise it will be too expensive
+        public static long AKASH_PRICE_LIMIT_CORE = 1;// 1$/core no more then this, otherwise it will be too expensive to deploy
         public static bool ONLY_PREVIEW = false;
 
         public long m_dseq = -1;
@@ -86,9 +86,11 @@ namespace akash_dep
             AKASH_YML_EDITED_PATH = cfg["AKASH_YML_EDITED_PATH"].ToString();
             AKASH_HOME = cfg["AKASH_HOME"].ToString();
             GAS_CONFIG = cfg["GAS_CONFIG"].ToString();
-            AKASH_PRICE_LIMIT = cfg["AKASH_PRICE_LIMIT"].ToObject<long>();
+            AKASH_PRICE_LIMIT_CORE = cfg["AKASH_PRICE_LIMIT_CORE"].ToObject<long>();
             ONLY_PREVIEW = cfg["ONLY_PREVIEW"].ToObject<bool>();
         }
+
+        long curNumInstances = 0;
 
         // Currently basic renaming to fix problems in naming in pool statistics
         public void PrepareYml(long numInstances)
@@ -102,6 +104,8 @@ namespace akash_dep
             // update correct number of instances
             String inst2replace = "count: 10";
             text = text.Replace(inst2replace, "count: "+numInstances);
+
+            curNumInstances = numInstances;
 
             Console.WriteLine("new name " + rndDeployText);
             File.WriteAllText(AKASH_YML_EDITED_PATH,text);
@@ -229,6 +233,11 @@ namespace akash_dep
             return true;
         }
 
+        public double uaktFromBlock(double uakt)
+        {
+            return uakt * curNumInstances;
+        }
+
         public String FindBestLease(JToken js)
         {
             Console.WriteLine(m_dseq + " searching for best lease");
@@ -261,14 +270,21 @@ namespace akash_dep
                     continue;
                 }
 
-                if (curPrice > m_wallet.GetNumAKT() || curPrice > AKASH_PRICE_LIMIT)
+                /*double curWithBlock = uaktFromBlock(curPrice);
+                Console.WriteLine(curWithBlock);
+
+                Console.WriteLine(Converters.UAKTtoUSDMonthly(curPrice));*/
+
+                double curPriceMonthly = Converters.UAKTtoUSDMonthly(curPrice);
+
+                if (curPriceMonthly > AKASH_PRICE_LIMIT_CORE)
                 {
-                    Console.WriteLine("too expensive " + Converters.UAKTtoAKTmon(curPrice) + "AKT");
+                    Console.WriteLine("too expensive " + curPriceMonthly + "$/core");
                     continue;// our of money or too expensive for us
                 }
                 else
                 {
-                    Console.WriteLine("got bid " + Converters.UAKTtoAKTmon(curPrice) + "AKT");
+                    Console.WriteLine("got bid " + curPriceMonthly + "$/core");
                 }
 
                 String curLeaseID = bid["bid_id"]["provider"].ToString();
@@ -302,7 +318,7 @@ namespace akash_dep
             JToken priceJS = curBest["price"];
             double price = Converters.UAKTJSget(priceJS);
 
-            Console.WriteLine("good lease price " + Converters.UAKTtoAKTmon(price) + "AKT");
+            Console.WriteLine("good lease price " + Converters.UAKTtoUSDMonthly(price) + "$/core");
             Console.WriteLine("good lease was found id: " + leaseID);
             return leaseID;
         }

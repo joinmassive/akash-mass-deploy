@@ -95,6 +95,8 @@ namespace akash_dep
 
             Instance.LoadCfg(mainConfig); // Load shared params
 
+            Converters.LoadCfg(mainConfig); // Load converter params
+
             long DEFAULT_CORES = mainConfig["DEFAULT_CORES"].ToObject<long>();
 
             Akash.Connect();

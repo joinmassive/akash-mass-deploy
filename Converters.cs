@@ -10,6 +10,15 @@ namespace akash_dep
 
     public static class Converters
     {
+
+        public static double AKT_PRICE;//UAKT->AKT->USD per month conversion
+        //info https://docs.google.com/spreadsheets/d/1q8ExwZBvbhqlHVP1fGOZg69kyxWG5iuip3m-KVONwP8/edit#gid=0
+
+        public static void LoadCfg(JToken cfg)
+        {
+            AKT_PRICE = cfg["AKT_PRICE"].ToObject<double>();
+        }
+
         public static String YAMLtoJSON(String yml)
         {
             try
@@ -45,9 +54,19 @@ namespace akash_dep
                 return null;
             }
         }
-        public static double UAKTtoAKTmon(double uakt)
+
+        public static double UAKTtoAKTMonthly(double uakt)
         {
-            return UAKTtoAKT(uakt) * 30.0;
+            double akt = UAKTtoAKT(uakt);
+            var now = DateTime.Now;
+            int numDays = DateTime.DaysInMonth(now.Year, now.Month);
+            return (86400 * numDays * (akt) / 5.976);
+        }
+
+        public static double UAKTtoUSDMonthly(double uakt)
+        {
+            var uaktMon = UAKTtoAKTMonthly(uakt);
+            return uaktMon * AKT_PRICE;
         }
 
         public static double UAKTtoAKT(double uakt)
