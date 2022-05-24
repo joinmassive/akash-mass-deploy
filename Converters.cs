@@ -45,6 +45,11 @@ namespace akash_dep
                 return null;
             }
         }
+        public static double UAKTtoAKTmon(double uakt)
+        {
+            return UAKTtoAKT(uakt) * 30.0;
+        }
+
         public static double UAKTtoAKT(double uakt)
         {
             return uakt / Math.Pow(10, 6);
@@ -72,7 +77,7 @@ namespace akash_dep
             catch
             {
                 Console.WriteLine("invalid json for balance conv " + js.ToString());
-                return 0;
+                return 0.0;
             }
         }
         public static double UAKTJStoAKT(JToken js)

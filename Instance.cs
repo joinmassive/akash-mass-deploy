@@ -16,6 +16,7 @@ namespace akash_dep
         public static String AKASH_HOME = "~/.akash";
         public static String GAS_CONFIG = "--gas-prices=\"0.025uakt\" --gas=\"auto\" --gas-adjustment=1.25";
         public static long AKASH_PRICE_LIMIT = 180;// no more then this, otherwise it will be too expensive
+        public static bool ONLY_PREVIEW = false;
 
         public long m_dseq = -1;
         public String m_provider = "";
@@ -86,6 +87,7 @@ namespace akash_dep
             AKASH_HOME = cfg["AKASH_HOME"].ToString();
             GAS_CONFIG = cfg["GAS_CONFIG"].ToString();
             AKASH_PRICE_LIMIT = cfg["AKASH_PRICE_LIMIT"].ToObject<long>();
+            ONLY_PREVIEW = cfg["ONLY_PREVIEW"].ToObject<bool>();
         }
 
         // Currently basic renaming to fix problems in naming in pool statistics
@@ -253,16 +255,20 @@ namespace akash_dep
                 JToken bidPriceJS = bid["price"];
                 //long curPrice = bidPriceJS["amount"].ToObject<double>();
                 double curPrice = Converters.UAKTJSget(bidPriceJS);
-
+                if(curPrice==0.0)
+                {
+                    Console.WriteLine("Invalid or known price structure, ignored");
+                    continue;
+                }
 
                 if (curPrice > m_wallet.GetNumAKT() || curPrice > AKASH_PRICE_LIMIT)
                 {
-                    Console.WriteLine("too expensive " + curPrice + "uakt");
+                    Console.WriteLine("too expensive " + Converters.UAKTtoAKTmon(curPrice) + "AKT");
                     continue;// our of money or too expensive for us
                 }
                 else
                 {
-                    Console.WriteLine("got bid " + curPrice + "uakt");
+                    Console.WriteLine("got bid " + Converters.UAKTtoAKTmon(curPrice) + "AKT");
                 }
 
                 String curLeaseID = bid["bid_id"]["provider"].ToString();
@@ -296,7 +302,7 @@ namespace akash_dep
             JToken priceJS = curBest["price"];
             double price = Converters.UAKTJSget(priceJS);
 
-            Console.WriteLine("good lease price " + price + "aukt");
+            Console.WriteLine("good lease price " + Converters.UAKTtoAKTmon(price) + "AKT");
             Console.WriteLine("good lease was found id: " + leaseID);
             return leaseID;
         }

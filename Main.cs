@@ -45,6 +45,12 @@ namespace akash_dep
                     }
                 }
 
+                if(Instance.ONLY_PREVIEW)
+                {
+                    inst.Close();
+                    return 0;
+                }
+
 
 
                 retry = 0;
