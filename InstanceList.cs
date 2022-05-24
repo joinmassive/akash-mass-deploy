@@ -156,7 +156,7 @@ namespace akash_dep
             }
         }
 
-        public bool CloseDead()
+        public bool CloseDead(bool closeNoLease,bool closeClosedLease)
         {
             var progress = new ProgressConsole(m_instances.Count, "CloseDead");
 
@@ -183,7 +183,7 @@ namespace akash_dep
                 {
                     int num = inst.GetNumLeases();
                     Console.WriteLine(inst.m_dseq + " num leases " + num);
-                    if (num==0)
+                    if (num==0 && closeNoLease)
                     {
                         need2close = true;
                     }
@@ -216,7 +216,7 @@ namespace akash_dep
                 Console.WriteLine("cores " + numSubDeps + " " + inst.m_dseq + " state: " + state + " money: " + money_state + 
                 " lease: " + lease_state + " price " + Converters.DoubleToStr2Dig(perCoreUSD) + "$/core");
 
-                if(lease_state=="closed")
+                if(lease_state=="closed" && closeClosedLease)
                 {
                     need2close = true;
                 }

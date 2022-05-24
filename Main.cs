@@ -112,13 +112,20 @@ namespace akash_dep
 
             InstanceList lst = new InstanceList(ref wl);
             Console.WriteLine("numParams " + numParams);
-            if (numParams==1)
+            if (numParams>=1)
             {
                 lst.Query();
                 var vars= args[0];
                 if (vars == "closedead")
                 {
-                    lst.CloseDead();
+                    bool closeNoLease = false;
+                    bool closeClosedLease = false;
+                    for(int i=1;i<numParams;i++)
+                    {
+                        if (args[i] == "no") closeNoLease = true;
+                        if (args[i] == "closed") closeClosedLease = true;
+                    }
+                    lst.CloseDead(closeNoLease, closeClosedLease);
                 }
                 else if(vars == "deposits")
                 {
