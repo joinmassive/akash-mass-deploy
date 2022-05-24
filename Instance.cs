@@ -15,7 +15,7 @@ namespace akash_dep
         public static String AKASH_YML_EDITED_PATH = "deploy_submit.yml";
         public static String AKASH_HOME = "~/.akash";
         public static String GAS_CONFIG = "--gas-prices=\"0.025uakt\" --gas=\"auto\" --gas-adjustment=1.25";
-        public static long AKASH_PRICE_LIMIT_CORE = 1;// 1$/core no more then this, otherwise it will be too expensive to deploy
+        public static double AKASH_PRICE_LIMIT_CORE = 1;// 1$/core no more then this, otherwise it will be too expensive to deploy
         public static bool ONLY_PREVIEW = false;
 
         public long m_dseq = -1;
@@ -86,7 +86,7 @@ namespace akash_dep
             AKASH_YML_EDITED_PATH = cfg["AKASH_YML_EDITED_PATH"].ToString();
             AKASH_HOME = cfg["AKASH_HOME"].ToString();
             GAS_CONFIG = cfg["GAS_CONFIG"].ToString();
-            AKASH_PRICE_LIMIT_CORE = cfg["AKASH_PRICE_LIMIT_CORE"].ToObject<long>();
+            AKASH_PRICE_LIMIT_CORE = cfg["AKASH_PRICE_LIMIT_CORE"].ToObject<double>();
             ONLY_PREVIEW = cfg["ONLY_PREVIEW"].ToObject<bool>();
         }
 

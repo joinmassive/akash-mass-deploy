@@ -163,9 +163,9 @@ namespace akash_dep
             }
         }
 
-        public bool CloseDead(bool closeNoLease,bool closeClosedLease)
+        public bool Close(bool closeNoLease,bool closeClosedLease,bool closeExpensive)
         {
-            var progress = new ProgressConsole(m_instances.Count, "CloseDead");
+            var progress = new ProgressConsole(m_instances.Count, "Close");
 
             double totalBidsBalance = 0;
 
@@ -204,7 +204,6 @@ namespace akash_dep
                 if(lease_price!=null)
                 {
                     curPrice += Converters.UAKTJSget(lease_price);
-
                 }
                 else
                 {
@@ -217,6 +216,11 @@ namespace akash_dep
                 if (perCoreUSD>0.0)
                 {
                     totalBidsBalance += perCoreUSD * numSubDeps;
+                }
+
+                if(closeExpensive && perCoreUSD>Instance.AKASH_PRICE_LIMIT_CORE)
+                {
+                    need2close = true;
                 }
 
 

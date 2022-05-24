@@ -116,16 +116,18 @@ namespace akash_dep
             {
                 lst.Query();
                 var vars= args[0];
-                if (vars == "closedead")
+                if (vars == "close")
                 {
                     bool closeNoLease = false;
                     bool closeClosedLease = false;
+                    bool closeExpensive = false;
                     for(int i=1;i<numParams;i++)
                     {
                         if (args[i] == "no") closeNoLease = true;
                         if (args[i] == "closed") closeClosedLease = true;
+                        if (args[i] == "expensive") closeExpensive = true;
                     }
-                    lst.CloseDead(closeNoLease, closeClosedLease);
+                    lst.Close(closeNoLease, closeClosedLease, closeExpensive);
                 }
                 else if(vars == "deposits")
                 {
