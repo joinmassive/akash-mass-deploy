@@ -205,8 +205,8 @@ namespace akash_dep
                     Console.WriteLine("err no bid price!");
                 }
 
-
-                Console.WriteLine(inst.m_dseq + " state: " + state + " money: " + money_state + " lease: " + lease_state+" price "+ curPrice+"uakt");
+                double perCoreUSD = Converters.UAKTtoUSDMonthly(curPrice);
+                Console.WriteLine(inst.m_dseq + " state: " + state + " money: " + money_state + " lease: " + lease_state+" price "+ perCoreUSD + "$/core");
 
                 if(lease_state=="closed")
                 {
