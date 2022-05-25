@@ -89,9 +89,9 @@ namespace akash_dep
                     res = cmdRes.Execute();
                     err = cmdRes.Error;
                     ShowErrorInfo(cmdRes);
-
-                    lastError = err;
                 }
+
+                lastError = err;
             }
 
             File.WriteAllText("akash.txt", m_pushed);
