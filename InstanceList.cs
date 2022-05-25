@@ -42,6 +42,18 @@ namespace akash_dep
             return false;
         }
 
+        public delegate int RetryFunIType();
+        bool RetryFunI(RetryFunIType fun)
+        {
+            for (int i = 0; i < kMaxRetry; i++)
+            {
+                int ok = fun();
+                if (ok == 1) return true;
+                else if (ok == -1) return false;//early out on bad error
+            }
+            return false;
+        }
+
         public bool Query()
         {
             Console.WriteLine("getting deployment list");
@@ -302,7 +314,7 @@ namespace akash_dep
                 String lease_state = inst.GetLeaseState();
                 if (lease_state == "closed") continue; //Ignore closed leases
 
-                if (!RetryFun(() => inst.SendManifestEvent())) continue;
+                if (!RetryFunI(() => inst.SendManifestEvent())) continue;
                 if (!RetryFun(() => inst.SendManifest())) continue;
 
             }

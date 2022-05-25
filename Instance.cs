@@ -502,7 +502,7 @@ namespace akash_dep
             return false;
         }
 
-        public bool SendManifestEvent()
+        public int SendManifestEvent()
         {
             Console.WriteLine(m_dseq + " sending manifest event");
 
@@ -516,14 +516,24 @@ namespace akash_dep
             String js_str = Akash.Send();
             JToken js = Converters.STRtoJS(js_str);
 
+            if (js == null)
+            {
+                var error = Akash.LastError();
+                if (error.Contains("rpc error:") && error.Contains("Invalid: deployment version:"))
+                {
+                    return -1;
+                }
+                return 0;
+            }
+
             try
             {
                 String events = js["logs"][0]["events"].ToString();
-                if (events.Contains("deployment-updated") && events.Contains("update-deployment"))
+                if (events.Contains("deployment-updated"))
                 {
                     Console.WriteLine("sending manifest event ok");
                     File.WriteAllText("manifest_event.txt", js_str);
-                    return true;
+                    return 1;
                 }
                 else
                 {
@@ -534,7 +544,7 @@ namespace akash_dep
             {
                 Console.WriteLine("crash in manifests: " + js_str);
             }
-            return false;
+            return 0;
         }
 
         public bool SendManifest()

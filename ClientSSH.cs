@@ -13,8 +13,8 @@ namespace akash_dep
         public String SSH_LOGIN;
         public String SSH_PASS;
 
-        static SshClient m_client;
-        static String m_pushed = "";
+        SshClient m_client;
+        String m_pushed = "";
 
         public void Connect()
         {
@@ -61,9 +61,16 @@ namespace akash_dep
             }
         }
 
+        String lastError = "";
+
+        public String LastError()
+        {
+            return lastError;
+        }
         public String Send()
         {
             m_pushed += "\n";
+            lastError = "";
             //Console.WriteLine("->\n"+pushed);
             var cmdRes = m_client.CreateCommand(m_pushed);
             var res = cmdRes.Execute();
@@ -82,6 +89,8 @@ namespace akash_dep
                     res = cmdRes.Execute();
                     err = cmdRes.Error;
                     ShowErrorInfo(cmdRes);
+
+                    lastError = err;
                 }
             }
 
