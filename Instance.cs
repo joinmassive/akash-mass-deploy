@@ -275,7 +275,7 @@ namespace akash_dep
 
                 Console.WriteLine(Converters.UAKTtoUSDMonthly(curPrice));*/
 
-                double curPriceMonthly = Converters.UAKTtoUSDMonthly(curPrice);
+                double curPriceMonthly = Converters.UAKTtoUSDMonthly(curPrice) / curNumInstances;
                 var curPriceMonthlyFmt = Converters.DoubleToStr2Dig(curPriceMonthly);
                 if (curPriceMonthly > AKASH_PRICE_LIMIT_CORE)
                 {
@@ -318,7 +318,7 @@ namespace akash_dep
             JToken priceJS = curBest["price"];
             double price = Converters.UAKTJSget(priceJS);
 
-            var priceFmt = Converters.DoubleToStr2Dig(Converters.UAKTtoUSDMonthly(price));
+            var priceFmt = Converters.DoubleToStr2Dig(Converters.UAKTtoUSDMonthly(price)/ curNumInstances);
             Console.WriteLine("good lease price " + priceFmt + "$/core");
             Console.WriteLine("good lease was found id: " + leaseID);
             return leaseID;

@@ -182,6 +182,8 @@ namespace akash_dep
             double totalBidsBalance = 0;
 
             int numClosed = 0;
+            int numNoLease = 0;
+            int numClosedLease = 0;
             foreach (var data in m_instances)
             {
                 progress.Increment();
@@ -198,13 +200,17 @@ namespace akash_dep
 
                 bool need2close = false;
 
+                int numCores = 1;
                 if(!inst.CheckLease())
                 {
-                    int num = inst.GetNumLeases();
-                    Console.WriteLine(inst.m_dseq + " num leases " + num);
-                    if (num==0 && closeNoLease)
+                    numCores = inst.GetNumLeases();
+                    Console.WriteLine(inst.m_dseq + " num leases " + numCores);
+                    if (numCores == 0)
                     {
-                        need2close = true;
+                        numNoLease++;
+                        if(closeNoLease) need2close = true;
+
+                        numCores = 1; //fix /0
                     }
                 }
 
@@ -222,7 +228,7 @@ namespace akash_dep
                     Console.WriteLine("err no bid price!");
                 }
 
-                double perCoreUSD = Converters.UAKTtoUSDMonthly(curPrice);
+                double perCoreUSD = Converters.UAKTtoUSDMonthly(curPrice) / numCores;
 
                 long numSubDeps = GetNumInstFromDepJS(dep);
                 if (perCoreUSD>0.0)
@@ -239,9 +245,10 @@ namespace akash_dep
                 Console.WriteLine("cores " + numSubDeps + " " + inst.m_dseq + " state: " + state + " money: " + money_state + 
                 " lease: " + lease_state + " price " + Converters.DoubleToStr2Dig(perCoreUSD) + "$/core");
 
-                if(lease_state=="closed" && closeClosedLease)
+                if(lease_state=="closed")
                 {
-                    need2close = true;
+                    numClosedLease++;
+                    if (closeClosedLease) need2close = true;
                 }
 
                 if (!need2close)
@@ -255,6 +262,8 @@ namespace akash_dep
                 numClosed++;
             }
             Console.WriteLine("closing dead finished closed: "+numClosed);
+            Console.WriteLine("closed no lease count: " + numNoLease);
+            Console.WriteLine("closed state lease count: " + numClosedLease);
             Console.WriteLine("total active monthly balance " + Converters.DoubleToStr2Dig(totalBidsBalance) + "$");
             return true;
         }

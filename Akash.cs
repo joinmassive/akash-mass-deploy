@@ -46,6 +46,11 @@ namespace akash_dep
             ssh.Push(cmd);
         }
 
+        public static String LastError()
+        {
+            return ssh.LastError();
+        }
+
         public static String Send()
         {
             return ssh.Send();
