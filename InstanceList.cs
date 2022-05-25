@@ -292,6 +292,7 @@ namespace akash_dep
         {
             var progress = new ProgressConsole(m_instances.Count, "UpdateManifests");
 
+            int numUpdated = 0;
             foreach (var data in m_instances)
             {
                 progress.Increment();
@@ -317,7 +318,9 @@ namespace akash_dep
                 if (!RetryFunI(() => inst.SendManifestEvent())) continue;
                 if (!RetryFun(() => inst.SendManifest())) continue;
 
+                numUpdated++;
             }
+            Console.WriteLine("updated " + numUpdated);
         }
     }
 }
