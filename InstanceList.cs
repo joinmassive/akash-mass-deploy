@@ -129,6 +129,7 @@ namespace akash_dep
             Dictionary<long, long> MachineStats = new Dictionary<long, long>();
 
             //var progress = new ProgressConsole(m_instances.Count, "Stats");
+            double totalTransfered = 0;
             foreach (var data in m_instances)
             {
                 //progress.Increment();
@@ -148,13 +149,14 @@ namespace akash_dep
 
                 long numSubDeps = GetNumInstFromDepJS(dep);
 
+                double transfered = Converters.AKTtoUSD(transfer_akt);
+                totalTransfered += transfered;
 
-                
 
                 Instance inst = data.inst;
                 Console.WriteLine(inst.m_dseq + "->" + state + " / " + 
                 money_state + " balance " + Converters.DoubleToStr2Dig(Converters.AKTtoUSD(balance_akt)) + 
-                    "$ transfered " + Converters.DoubleToStr2Dig(Converters.AKTtoUSD(transfer_akt)) +
+                    "$ transfered " + Converters.DoubleToStr2Dig(transfered) +
                     "$ cores "+ numSubDeps);
 
                 long value = 0;
@@ -173,6 +175,7 @@ namespace akash_dep
             {
                 Console.WriteLine("CPUs: " + inst.Key + " count " + inst.Value);
             }
+            Console.WriteLine("Total transfered: " + Converters.DoubleToStr2Dig(totalTransfered)+"$");
         }
 
         public bool Close(bool closeNoLease,bool closeClosedLease,bool closeExpensive)
