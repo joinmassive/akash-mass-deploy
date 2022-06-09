@@ -121,13 +121,15 @@ namespace akash_dep
                     bool closeNoLease = false;
                     bool closeClosedLease = false;
                     bool closeExpensive = false;
-                    for(int i=1;i<numParams;i++)
+                    bool closeAll = false;
+                    for (int i=1;i<numParams;i++)
                     {
                         if (args[i] == "no") closeNoLease = true;
                         if (args[i] == "closed") closeClosedLease = true;
                         if (args[i] == "expensive") closeExpensive = true;
+                        if (args[1] == "all") closeAll = true;
                     }
-                    lst.Close(closeNoLease, closeClosedLease, closeExpensive);
+                    lst.Close(closeNoLease, closeClosedLease, closeExpensive, closeAll);
                 }
                 else if(vars == "deposits")
                 {

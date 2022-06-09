@@ -178,7 +178,7 @@ namespace akash_dep
             Console.WriteLine("Total transfered: " + Converters.DoubleToStr2Dig(totalTransfered)+"$");
         }
 
-        public bool Close(bool closeNoLease,bool closeClosedLease,bool closeExpensive)
+        public bool Close(bool closeNoLease,bool closeClosedLease,bool closeExpensive,bool closeAll)
         {
             var progress = new ProgressConsole(m_instances.Count, "Close");
 
@@ -252,6 +252,11 @@ namespace akash_dep
                 {
                     numClosedLease++;
                     if (closeClosedLease) need2close = true;
+                }
+
+                if(closeAll)
+                {
+                    need2close = true;
                 }
 
                 if (!need2close)
