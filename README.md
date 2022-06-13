@@ -1,7 +1,7 @@
 # ![Akash Mass Deploy](akash-mass-deploy.png)
 
 **Akash Mass Deploy** is a console app for managing a large number of deployments on the
-[Akash](https://akash.network/) network.
+[Akash Network®](https://akash.network/).
 
 ## Motivation
 
@@ -11,8 +11,8 @@ The tools available for deploying workloads to Akash, a desktop app,
 [native command-line interface](https://github.com/ovrclk/akash), are ideal for single deployments
 but aren’t suited to orchestrating multiple deployments across the network.
 
-The **Akash Mass Deploy** tool was developed to run a [Massive](https://joinmassive.com/) testnet on
-Akash infrastructure and can be used to automate similar mass deployments.
+The **Akash Mass Deploy** tool was developed to run a [Massive®](https://joinmassive.com/) testnet
+on Akash infrastructure and can be used to automate similar mass deployments.
 
 ## Summary
 
