@@ -55,17 +55,17 @@ The deployment mode is determined by one of the following command-line arguments
 
 ## C# class details
 
-Some of the app features are implemented by the following classes:
+Many of the app’s features are defined by the following classes:
 
-* [EnvVarsReplacer](EnvVarsReplacer.cs) – evaluates environment variables, caching them for future
+* [EnvVarsReplacer](EnvVarsReplacer.cs) – evaluates environment variables, caching each for future
                                           use
-* [ClientSSH](ClientSSH.cs)             – handles the SSH connection
-* [Wallet](Wallet.cs)                   – stores the Akash wallet info
-* [Converters](Converters.cs)           – performs various type conversions
-* [Instance](Instance.cs)               – manages the deployment lifecycle
-* [InstanceList](InstanceList.cs)       – queryies the collection of deployments, refilling and
-                                          releasing funds as necessary
-* [MainClass](Main.cs)                  – is the app’s entry point
+* [ClientSSH](ClientSSH.cs)             – manages the SSH connection
+* [Wallet](Wallet.cs)                   – stores Akash wallet info
+* [Converters](Converters.cs)           – performs various data conversions
+* [Instance](Instance.cs)               – creates, updates, and destroys deployments
+* [InstanceList](InstanceList.cs)       – iterates over the deployments, refilling and releasing
+                                          funds as needed
+* [MainClass](Main.cs)                  – is the entry point of the app
 
 ## License
 
