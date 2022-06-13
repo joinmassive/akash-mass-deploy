@@ -39,7 +39,7 @@ The deployment mode is determined by one of the following command-line arguments
                 deployment `DEFAULT_CORES` given by the `config.js` file
 * `manifests` – updates all active deployments with the current `deploy.yml` file
 * `deposits`  – tops all active deployments up, to 5 AKT currently
-* `cleanup`   – closes all nonfunctioning deployments
+* `cleanup`   – tears all nonfunctioning deployments down
 * `info`      – returns the state of all deployments
 
 ## Limitations
@@ -55,16 +55,16 @@ The deployment mode is determined by one of the following command-line arguments
 
 ## C# class details
 
-The following classes define much of the app’s functionality:
+The following classes define important functionality:
 
-* [EnvVarsReplacer](EnvVarsReplacer.cs) – evaluates environment variables, caching any that are set
-                                          for future use
+* [EnvVarsReplacer](EnvVarsReplacer.cs) – evaluates environment variables, caching for future use
+                                          any that are set
 * [ClientSSH](ClientSSH.cs)             – manages the SSH connection
-* [Wallet](Wallet.cs)                   – maintains the state of the Akash wallet
+* [Wallet](Wallet.cs)                   – maintains Akash wallet state
 * [Converters](Converters.cs)           – performs various data conversions
-* [Instance](Instance.cs)               – creates, updates, and closes deployments
-* [InstanceList](InstanceList.cs)       – iterates over deployments, refilling and releasing funds
-                                          as needed
+* [Instance](Instance.cs)               – creates, updates, and tears deployments down
+* [InstanceList](InstanceList.cs)       – batches deployment commands and output, refilling and
+                                          releasing funds as needed
 * [MainClass](Main.cs)                  – is the app entry point
 
 ## License
