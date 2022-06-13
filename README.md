@@ -1,4 +1,4 @@
-# Akash Mass Deploy
+# ![Akash Mass Deploy](akash-mass-deploy.png)
 
 **Akash Mass Deploy** is a console app for managing a large number of deployments on the
 [Akash](https://akash.network/) network.
