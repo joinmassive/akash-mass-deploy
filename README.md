@@ -21,7 +21,7 @@ to an Akash-loaded Linux instance over SSH.
 
 Deployments are created with the user-supplied Akash wallet, certificate, and configuration files;
 active deployments are maximized by closing any that become stale and by maintaining a list of
-providers that fail repeatedly for the deployment configuration so should subsequently be avoided.
+providers that fail repeatedly for the deployment configuration so should be avoided later on.
 
 ## Configuring
 
