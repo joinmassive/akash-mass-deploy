@@ -1,18 +1,18 @@
 # ![Akash Mass Deploy](akash-mass-deploy.png)
 
-**Akash Mass Deploy** is a console app for managing a large number of deployments on the
-[Akash Network®](https://akash.network/).
+**Akash Mass Deploy** is a console app for managing a large number of deployments on
+[Akash Network®](https://akash.network/) infrastructure.
 
 ## Motivation
 
-The tools available for deploying workloads to Akash, a desktop app,
-[Akashlytics Deploy](https://github.com/Akashlytics/akashlytics-deploy); a web app,
-[Akash Deploy](https://github.com/spacepotahto/akash-deploy-ui); and the
+The tools available for deploying workloads to Akash, the
+[desktop app Akashlytics Deploy](https://github.com/Akashlytics/akashlytics-deploy), the
+[web app Akash Deploy](https://github.com/spacepotahto/akash-deploy-ui), and the
 [native command-line interface](https://github.com/ovrclk/akash), are ideal for single deployments
-but aren’t suited to orchestrating multiple deployments across the network.
+but aren’t suited to orchestrating multiple deployments.
 
-The **Akash Mass Deploy** tool was developed to run a [Massive®](https://joinmassive.com/) testnet
-on Akash infrastructure and can be used to automate similar mass deployments.
+The **Akash Mass Deploy** app was developed to run a [Massive®](https://joinmassive.com/) testnet
+across the network and can be used to automate similar mass deployments.
 
 ## Summary
 
@@ -20,8 +20,8 @@ on Akash infrastructure and can be used to automate similar mass deployments.
 to an Akash-loaded Linux instance over SSH.
 
 Deployments are created with the user-supplied Akash wallet, certificate, and configuration files;
-active deployments are maximized by closing any that become stale and by maintaining an exclusion
-list of providers that fail repeatedly for the deployment configuration.
+active deployments are maximized by closing any that become stale and by maintaining a list of
+providers that fail repeatedly for the deployment configuration so should subsequently be avoided.
 
 ## Configuring
 
@@ -38,8 +38,8 @@ The deployment mode is determined by one of the following command-line arguments
 * `[none]`    – creates the number of deployments `CREATE_DEPLOYMENTS` with the number of cores per
                 deployment `DEFAULT_CORES` given by the `config.js` file
 * `manifests` – updates all active deployments with the current `deploy.yml` file
-* `deposits`  – tops all active deployments up, to 5 AKT currently
-* `cleanup`   – tears all nonfunctioning deployments down
+* `deposits`  – tops up all active deployments, to 5 AKT currently
+* `cleanup`   – tears down all nonfunctioning deployments
 * `info`      – returns the state of all deployments
 
 ## Limitations
@@ -61,10 +61,10 @@ The following classes define important functionality:
 * [`EnvVarsReplacer`](EnvVarsReplacer.cs#L7-L41) – evaluates environment variables, caching for
                                                    future use any that are set
 * [`ClientSSH`](ClientSSH.cs#L9-L94)             – manages the SSH connection
-* [`Wallet`](Wallet.cs#L8-L85)                   – maintains Akash wallet state
-* [`Instance`](Instance.cs#L8-L602)              – creates, updates, and tears deployments down
-* [`InstanceList`](InstanceList.cs#L14-L263)     – batches deployment commands and output, refilling
-                                                   and releasing funds as needed
+* [`Wallet`](Wallet.cs#L8-L85)                   – stores Akash wallet info
+* [`Instance`](Instance.cs#L8-L602)              – creates, updates, and tears down deployments
+* [`InstanceList`](InstanceList.cs#L14-L263)     – batches deployment commands and results,
+                                                   refilling and releasing funds as needed
 * [`Converters`](Converters.cs#L10-L104)         – performs various data conversions
 
 ## License
