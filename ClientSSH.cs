@@ -76,7 +76,7 @@ namespace akash_dep
             {
                 int tries = 0;
 
-                while (err.Contains("post failed: Post ") && err.Contains(": EOF") && tries < 2)
+                while (err.Contains("post failed: Post") && err.Contains(": EOF") && tries < 2)
                 {
                     tries++;
                     cmdRes = m_client.CreateCommand(m_pushed);

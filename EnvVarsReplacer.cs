@@ -28,7 +28,7 @@ namespace akash_dep
         {
             value = Prepare(value); // replace with known values
             Akash.Push("echo " + value);
-            Add(key,Akash.Send());
+            Add(key, Akash.Send());
         }
 
         public void Print()

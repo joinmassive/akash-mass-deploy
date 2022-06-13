@@ -12,7 +12,7 @@ namespace akash_dep
         public static String AKASH_YML_EDITED_PATH = "deploy_submit.yml";
         public static String AKASH_HOME = "~/.akash";
         public static String GAS_CONFIG = "--gas-prices=\"0.025uakt\" --gas=\"auto\" --gas-adjustment=1.25";
-        public static long AKASH_PRICE_LIMIT = 180; // no more then this, otherwise it will be too expensive
+        public static long AKASH_PRICE_LIMIT = 180; // no more than this amount, otherwise too expensive
 
         public long m_dseq = -1;
         public String m_provider = "";
@@ -88,7 +88,7 @@ namespace akash_dep
             AKASH_PRICE_LIMIT = cfg["AKASH_PRICE_LIMIT"].ToObject<long>();
         }
 
-        // Currently basic renaming to fix problems in naming in pool statistics
+        // Currently basic renaming to fix naming problems with pool statistics
         public void PrepareYml(long numInstances)
         {
             String text = File.ReadAllText(AKASH_YML_PATH);
@@ -236,7 +236,7 @@ namespace akash_dep
             int numOpened = 0;
             JArray bids = (JArray)js["bids"];
 
-            Console.WriteLine("got bids: " + bids.Count);
+            Console.WriteLine("got bids " + bids.Count);
 
             foreach (var bid_ in bids)
             {
@@ -285,15 +285,15 @@ namespace akash_dep
 
             if (curBest == null)
             {
-                Console.WriteLine("no good lease was found! numOpened: " + numOpened);
+                Console.WriteLine("no good lease was found! numOpened " + numOpened);
                 return null;
             }
 
             String leaseID = curBest["bid_id"]["provider"].ToString();
             long price = curBest["price"]["amount"].ToObject<long>();
 
-            Console.WriteLine("good lease price " + price + "aukt");
-            Console.WriteLine("good lease was found id: " + leaseID);
+            Console.WriteLine("good lease price " + price + "uakt");
+            Console.WriteLine("good lease was found id " + leaseID);
             return leaseID;
         }
 
@@ -302,7 +302,7 @@ namespace akash_dep
             Console.WriteLine(m_dseq + " creating lease");
 
             SetSeqVars();
-            String exec = "query market bid list --owner=$AKASH_ACCOUNT_ADDRESS --node $AKASH_NODE --dseq $AKASH_DSEQ";
+            String exec = "query market bid list --owner $AKASH_ACCOUNT_ADDRESS --node $AKASH_NODE --dseq $AKASH_DSEQ";
             UpdateExec(ref exec);
             Akash.PushAkash(exec);
 
@@ -499,12 +499,12 @@ namespace akash_dep
                 }
                 else
                 {
-                    Console.WriteLine("err in manifests: " + js_str);
+                    Console.WriteLine("err in manifests " + js_str);
                 }
             }
             catch
             {
-                Console.WriteLine("crash in manifests: " + js_str);
+                Console.WriteLine("crash in manifests " + js_str);
             }
 
             return false;
@@ -524,7 +524,7 @@ namespace akash_dep
 
             String yam_str = Akash.Send();
 
-            if (yam_str.Contains("status: PASS")) // Fails for converting to json, so we query directly
+            if (yam_str.Contains("status: PASS")) // Fails to convert to json, so we query directly
             {
                 Console.WriteLine("sending manifest ok");
                 File.WriteAllText("manifest.txt", yam_str);
@@ -542,7 +542,7 @@ namespace akash_dep
         {
             Console.WriteLine(m_dseq + " closing");
             String exec = "tx deployment close --node $AKASH_NODE --chain-id $AKASH_CHAIN_ID " +
-                "--dseq $AKASH_DSEQ  --owner $AKASH_ACCOUNT_ADDRESS --from $AKASH_KEY_NAME " +
+                "--dseq $AKASH_DSEQ --owner $AKASH_ACCOUNT_ADDRESS --from $AKASH_KEY_NAME " +
                 "--keyring-backend $AKASH_KEYRING_BACKEND --yes " + PrepareGas();
             UpdateExec(ref exec);
             Akash.PushAkash(exec);

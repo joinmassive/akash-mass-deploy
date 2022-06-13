@@ -96,7 +96,7 @@ namespace akash_dep
 
             Console.WriteLine("total deployments " + numDeployments);
             Console.WriteLine("total subMachines " + numSubDeployments);
-            Console.WriteLine("total locked balance: " + totalBalance);
+            Console.WriteLine("total locked balance " + totalBalance);
             return true;
         }
 
@@ -180,7 +180,7 @@ namespace akash_dep
                     Console.WriteLine("err no bid price!");
                 }
 
-                Console.WriteLine(inst.m_dseq + " state: " + state + " money: " + money_state + " lease: " + lease_state + " price " + curPrice + "uakt");
+                Console.WriteLine(inst.m_dseq + " state " + state + " money " + money_state + " lease " + lease_state + " price " + curPrice + "uakt");
 
                 if (lease_state == "closed")
                 {
@@ -197,7 +197,7 @@ namespace akash_dep
                 numClosed++;
             }
 
-            Console.WriteLine("cleaning deployments finished, closed: " + numClosed);
+            Console.WriteLine("cleaning deployments finished, closed " + numClosed);
             Console.WriteLine("total active balance " + totalBidsBalance + "uakt");
             return true;
         }

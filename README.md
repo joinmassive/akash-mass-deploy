@@ -55,17 +55,17 @@ The deployment mode is determined by one of the following command-line arguments
 
 ## C# class details
 
- - EnvVarsReplacer - is a class that evaluates all variables in bash(initially there were a lot of them, I've simplified so it just precaches them all for future uses)
- - Main part is Akash - it does ssh connection to localhost, group commands together and sends them, gets errors/results and print them
- - ClientSSH - is an addition class to manage ssh connection
- - Wallet - is the akash wallet - it has wallet names and function for getting current amount
- - Converters - various YML/JSON converters, akash price converter and random generator
-Instance - is the main akash instance concept, here we create new deployment, select optimal bids, send manifest, add deposit, close - basically do everything with our deployment
- - InstanceList in current state - it basically iterates over all deployments that are deployed currently in order to close dead ones(and release the funds), deposit to the ones that are low on money and show statistics
-It currently generates a lot of files for debugging.
-Currently it just consumes the YML renames the name of the server to random value and does the submission + checks dead/deposit to the instances
- - InstanceList - is the class for queryies list of instances, checking their deployment, filling them with money
- - Program - is currently main class in that utility
+Some of the app features are implemented by the following classes:
+
+* [EnvVarsReplacer](EnvVarsReplacer.cs) – evaluates environment variables, caching them for future
+                                          use
+* [ClientSSH](ClientSSH.cs)             – handles the SSH connection
+* [Wallet](Wallet.cs)                   – stores the Akash wallet info
+* [Converters](Converters.cs)           – performs various type conversions
+* [Instance](Instance.cs)               – manages the deployment lifecycle
+* [InstanceList](InstanceList.cs)       – queryies the collection of deployments, refilling and
+                                          releasing funds as necessary
+* [MainClass](Main.cs)                  – is the app’s entry point
 
 ## License
 

@@ -58,12 +58,12 @@ namespace akash_dep
                     }
                 }
 
-                Console.WriteLine("deployment done\n");
+                Console.WriteLine("deployment done");
                 return 0;
             }
             catch
             {
-                Console.WriteLine("deployment exception\n");
+                Console.WriteLine("deployment exception");
                 return -4;
             }
         }
@@ -129,7 +129,7 @@ namespace akash_dep
 
             int numGood = 0;
 
-            for(int i = 0; i < CREATE_DEPLOYMENTS; i++)
+            for (int i = 0; i < CREATE_DEPLOYMENTS; i++)
             {
                 progress.Increment();
 
