@@ -57,15 +57,15 @@ The deployment mode is determined by one of the following command-line arguments
 
 The following classes define important functionality:
 
-* [MainClass](Main.cs)                  – is the app entry point
-* [EnvVarsReplacer](EnvVarsReplacer.cs) – evaluates environment variables, caching for future use
-                                          any that are set
-* [ClientSSH](ClientSSH.cs)             – manages the SSH connection
-* [Wallet](Wallet.cs)                   – maintains Akash wallet state
-* [Instance](Instance.cs)               – creates, updates, and tears deployments down
-* [InstanceList](InstanceList.cs)       – batches deployment commands and output, refilling and
-                                          releasing funds as needed
-* [Converters](Converters.cs)           – performs various data conversions
+* [`MainClass`](Main.cs)                  – is the app entry point
+* [`EnvVarsReplacer`](EnvVarsReplacer.cs) – evaluates environment variables, caching for future use
+                                            any that are set
+* [`ClientSSH`](ClientSSH.cs)             – manages the SSH connection
+* [`Wallet`](Wallet.cs)                   – maintains Akash wallet state
+* [`Instance`](Instance.cs)               – creates, updates, and tears deployments down
+* [`InstanceList`](InstanceList.cs)       – batches deployment commands and output, refilling and
+                                            releasing funds as needed
+* [`Converters`](Converters.cs)           – performs various data conversions
 
 ## License
 
