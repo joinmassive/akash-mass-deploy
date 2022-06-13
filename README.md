@@ -1,18 +1,18 @@
-# Akash Mass Deploy
+# ![Akash Mass Deploy](akash-mass-deploy.png)
 
-**Akash Mass Deploy** is a console app for managing a large number of deployments on the
-[Akash](https://akash.network/) network.
+**Akash Mass Deploy** is a console app for managing a large number of deployments on
+[Akash Network®](https://akash.network/) infrastructure.
 
 ## Motivation
 
-The tools available for deploying workloads to Akash, a desktop app,
-[Akashlytics Deploy](https://github.com/Akashlytics/akashlytics-deploy); a web app,
-[Akash Deploy](https://github.com/spacepotahto/akash-deploy-ui); and the
+The tools available for deploying workloads to Akash, the
+[desktop app Akashlytics Deploy](https://github.com/Akashlytics/akashlytics-deploy), the
+[web app Akash Deploy](https://github.com/spacepotahto/akash-deploy-ui), and the
 [native command-line interface](https://github.com/ovrclk/akash), are ideal for single deployments
-but aren’t suited to orchestrating multiple deployments across the network.
+but aren’t suited to orchestrating multiple deployments.
 
-The **Akash Mass Deploy** tool was developed to run a [Massive](https://joinmassive.com/) testnet on
-Akash infrastructure and can be used to automate similar mass deployments.
+The **Akash Mass Deploy** app was developed to run a [Massive®](https://joinmassive.com/) testnet
+across the network and can be used to automate similar mass deployments.
 
 ## Summary
 
@@ -20,8 +20,8 @@ Akash infrastructure and can be used to automate similar mass deployments.
 to an Akash-loaded Linux instance over SSH.
 
 Deployments are created with the user-supplied Akash wallet, certificate, and configuration files;
-active deployments are maximized by closing any that become stale and by maintaining an exclusion
-list of providers that fail repeatedly for the deployment configuration.
+active deployments are maximized by closing any that become stale and by maintaining a list of
+providers that fail repeatedly for the deployment configuration so should be avoided later on.
 
 ## Configuring
 
@@ -38,8 +38,8 @@ The deployment mode is determined by one of the following command-line arguments
 * `[none]`    – creates the number of deployments `CREATE_DEPLOYMENTS` with the number of cores per
                 deployment `DEFAULT_CORES` given by the `config.js` file
 * `manifests` – updates all active deployments with the current `deploy.yml` file
-* `deposits`  – tops all active deployments up, to 5 AKT currently
-* `cleanup`   – closes all nonfunctioning deployments
+* `deposits`  – tops up all active deployments, to 5 AKT currently
+* `cleanup`   – tears down all nonfunctioning deployments
 * `info`      – returns the state of all deployments
 
 ## Limitations
@@ -55,17 +55,17 @@ The deployment mode is determined by one of the following command-line arguments
 
 ## C# class details
 
- - EnvVarsReplacer - is a class that evaluates all variables in bash(initially there were a lot of them, I've simplified so it just precaches them all for future uses)
- - Main part is Akash - it does ssh connection to localhost, group commands together and sends them, gets errors/results and print them
- - ClientSSH - is an addition class to manage ssh connection
- - Wallet - is the akash wallet - it has wallet names and function for getting current amount
- - Converters - various YML/JSON converters, akash price converter and random generator
-Instance - is the main akash instance concept, here we create new deployment, select optimal bids, send manifest, add deposit, close - basically do everything with our deployment
- - InstanceList in current state - it basically iterates over all deployments that are deployed currently in order to close dead ones(and release the funds), deposit to the ones that are low on money and show statistics
-It currently generates a lot of files for debugging.
-Currently it just consumes the YML renames the name of the server to random value and does the submission + checks dead/deposit to the instances
- - InstanceList - is the class for queryies list of instances, checking their deployment, filling them with money
- - Program - is currently main class in that utility
+The following classes define important functionality:
+
+* [`MainClass`](Main.cs#L9-L151)                 – is the app entry point
+* [`EnvVarsReplacer`](EnvVarsReplacer.cs#L7-L41) – evaluates environment variables, caching for
+                                                   future use any that are set
+* [`ClientSSH`](ClientSSH.cs#L9-L94)             – manages the SSH connection
+* [`Wallet`](Wallet.cs#L8-L85)                   – stores Akash wallet info
+* [`Instance`](Instance.cs#L8-L602)              – creates, updates, and tears down deployments
+* [`InstanceList`](InstanceList.cs#L14-L263)     – batches deployment commands and results,
+                                                   refilling and releasing funds as needed
+* [`Converters`](Converters.cs#L10-L104)         – performs various data conversions
 
 ## License
 

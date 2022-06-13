@@ -112,7 +112,7 @@ namespace akash_dep
             Console.WriteLine("total deployments " + numDeployments);
             Console.WriteLine("total subMachines " + numSubDeployments);
             double totalBalanceUSD = Converters.AKTtoUSD(totalBalance);
-            Console.WriteLine("total locked balance: " + Converters.DoubleToStr2Dig(totalBalanceUSD) +"$");
+            Console.WriteLine("total locked balance $" + Converters.DoubleToStr2Dig(totalBalanceUSD));
             return true;
         }
 
@@ -269,10 +269,11 @@ namespace akash_dep
 
                 numClosed++;
             }
-            Console.WriteLine("closing dead finished closed: "+numClosed);
+
+            Console.WriteLine("closing dead finished, count " + numClosed);
             Console.WriteLine("closed no lease count: " + numNoLease);
             Console.WriteLine("closed state lease count: " + numClosedLease);
-            Console.WriteLine("total active monthly balance " + Converters.DoubleToStr2Dig(totalBidsBalance) + "$");
+            Console.WriteLine("total active monthly balance $" + Converters.DoubleToStr2Dig(totalBidsBalance));
             return true;
         }
 
