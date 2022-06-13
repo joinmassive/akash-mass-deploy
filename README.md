@@ -1,6 +1,6 @@
 # ![Akash Mass Deploy](akash-mass-deploy.png)
 
-**Akash Mass Deploy** is a console app for managing a large number of deployments on
+**Akash Mass Deploy** is a console app for creating and managing a large number of deployments on
 [Akash Network®](https://akash.network/) infrastructure.
 
 ## Motivation
