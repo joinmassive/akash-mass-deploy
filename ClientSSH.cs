@@ -36,6 +36,7 @@ namespace akash_dep
             {
                 m_pushed += ";\n";
             }
+
             m_pushed += cmd;
         }
 
@@ -48,6 +49,7 @@ namespace akash_dep
         {
             String err = res.Error;
             if (String.IsNullOrEmpty(err)) return;
+
             if (res.ExitStatus == 0)
             {
                 if (!err.Contains("gas estimate:"))
@@ -67,17 +69,16 @@ namespace akash_dep
         {
             return lastError;
         }
+
         public String Send()
         {
             m_pushed += "\n";
             lastError = "";
-            //Console.WriteLine("->\n"+pushed);
             var cmdRes = m_client.CreateCommand(m_pushed);
             var res = cmdRes.Execute();
             String err = cmdRes.Error;
 
             ShowErrorInfo(cmdRes);
-
 
             if (!String.IsNullOrEmpty(err))
             {
@@ -97,7 +98,6 @@ namespace akash_dep
 
             File.WriteAllText("akash.txt", m_pushed);
 
-            //Console.Write("<-\n"+res);
             Clear();
             return res;
         }

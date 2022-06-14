@@ -1,5 +1,3 @@
-
-
 using System;
 using System.Collections.Generic;
 using System.IO;
@@ -7,7 +5,6 @@ using Newtonsoft.Json.Linq;
 
 namespace akash_dep
 {
-
     public class Instance
     {
         readonly Wallet m_wallet;
@@ -26,13 +23,15 @@ namespace akash_dep
         public JArray m_currentLeases = null;
 
         static Dictionary<String, String> badList = new Dictionary<string, string>();
+
         public void MarkBad()
         {
-            if(CheckIsBad(m_provider))
+            if (CheckIsBad(m_provider))
             {
                 Console.WriteLine("duplicate bad");
                 return;
             }
+
             String badID = m_provider;
             if (String.IsNullOrEmpty(badID)) return;
             var stream = File.AppendText("bad.txt");
@@ -43,12 +42,12 @@ namespace akash_dep
             Console.WriteLine("added to ban " + badID);
         }
 
-       
         public static void LoadBad()
         {
             try
             {
                 var stream = File.ReadAllLines("bad.txt");
+
                 foreach (var st in stream)
                 {
                     if (String.IsNullOrWhiteSpace(st)) continue;
@@ -58,18 +57,19 @@ namespace akash_dep
             }
             catch
             {
-
             }
         }
 
         public bool CheckIsBad(String prov)
         {
             String value;
-            if(badList.TryGetValue(prov,out value))
+
+            if (badList.TryGetValue(prov, out value))
             {
                 Console.WriteLine("banned " + prov);
                 return true;
             }
+
             return false;
         }
 
@@ -97,18 +97,18 @@ namespace akash_dep
         {
             String text = File.ReadAllText(AKASH_YML_PATH);
             String text2replace = "aktDEP_RandomName_10";
-            String rndDeployText = "aktDEP_"+Converters.RandomString(5); // Current limit of the pool we are using
-            rndDeployText += "_" + numInstances;//add num instances
+            String rndDeployText = "aktDEP_" + Converters.RandomString(5); // Current limit of the pool we are using
+            rndDeployText += "_" + numInstances; // add num instances
             text = text.Replace(text2replace, rndDeployText);
 
             // update correct number of instances
             String inst2replace = "count: 10";
-            text = text.Replace(inst2replace, "count: "+numInstances);
+            text = text.Replace(inst2replace, "count: " + numInstances);
 
             curNumInstances = numInstances;
 
             Console.WriteLine("new name " + rndDeployText);
-            File.WriteAllText(AKASH_YML_EDITED_PATH,text);
+            File.WriteAllText(AKASH_YML_EDITED_PATH, text);
         }
 
         public void ClearCaches()
@@ -127,27 +127,28 @@ namespace akash_dep
             {
                 var deployment_id = deployment["deployment_id"];
                 m_dseq = deployment_id["dseq"].ToObject<long>();
-                SetSeqVars();// Update the db for future uses
+                SetSeqVars(); // Update the db for future uses
             }
             catch
             {
                 Console.WriteLine("loading vars from js failed " + deployment.ToString());
                 return false;
             }
+
             return true;
         }
-
 
         public static long FindDseq(JToken js)
         {
             JArray logs = (JArray)js["logs"];
-
             JArray events = (JArray)logs[0]["events"];
+
             foreach (var ev in events)
             {
                 if (ev["type"].ToString() == "akash.v1")
                 {
                     var attributes = (JArray)ev["attributes"];
+
                     foreach (var at in attributes)
                     {
                         if (at["key"].ToString() == "dseq")
@@ -156,8 +157,8 @@ namespace akash_dep
                         }
                     }
                 }
-
             }
+
             return -1;
         }
 
@@ -188,7 +189,7 @@ namespace akash_dep
         public bool Create(long numCores)
         {
             PrepareYml(numCores);
-            Console.WriteLine("creating new deployment, cores "+numCores);
+            Console.WriteLine("creating new deployment, cores " + numCores);
 
             String exec = "tx deployment create \"" + AKASH_YML_EDITED_PATH + "\" " +
                 "--from $AKASH_KEY_NAME --node $AKASH_NODE --chain-id $AKASH_CHAIN_ID --keyring-backend $AKASH_KEYRING_BACKEND " +
@@ -197,6 +198,7 @@ namespace akash_dep
             Akash.PushAkash(exec);
 
             String js_str;
+
             if (File.Exists("deploy.txt"))
             {
                 Console.WriteLine("cached deploy.txt");
@@ -206,9 +208,7 @@ namespace akash_dep
             else
             {
                 js_str = Akash.Send();
-
             }
-
 
             JToken js = Converters.STRtoJS(js_str);
 
@@ -221,7 +221,6 @@ namespace akash_dep
                 Console.WriteLine("invalid dseq");
                 return false;
             }
-
 
             if (m_dseq == -1)
             {
@@ -257,40 +256,36 @@ namespace akash_dep
                 numOpened++;
 
                 String priceType = bid["price"]["denom"].ToString();
+
                 if (priceType != "uakt")
                 {
-                    continue;// ignore all new denom specs
+                    continue; // ignore all new denom specs
                 }
 
                 JToken bidPriceJS = bid["price"];
-                //long curPrice = bidPriceJS["amount"].ToObject<double>();
                 double curPrice = Converters.UAKTJSget(bidPriceJS);
-                if(curPrice==0.0)
+
+                if (curPrice == 0.0)
                 {
-                    Console.WriteLine("Invalid or known price structure, ignored");
+                    Console.WriteLine("Invalid or unknown price structure, ignored");
                     continue;
                 }
 
-                /*double curWithBlock = uaktFromBlock(curPrice);
-                Console.WriteLine(curWithBlock);
-
-                Console.WriteLine(Converters.UAKTtoUSDMonthly(curPrice));*/
-
                 double curPriceMonthly = Converters.UAKTtoUSDMonthly(curPrice) / curNumInstances;
                 var curPriceMonthlyFmt = Converters.DoubleToStr2Dig(curPriceMonthly);
+
                 if (curPriceMonthly > AKASH_PRICE_LIMIT_CORE)
                 {
-                    Console.WriteLine("too expensive " + curPriceMonthlyFmt + "$/core");
-                    continue;// our of money or too expensive for us
+                    Console.WriteLine("too expensive, $" + curPriceMonthlyFmt + "/core");
+                    continue; // out of money or too expensive for us
                 }
                 else
                 {
-                    Console.WriteLine("got bid " + curPriceMonthlyFmt + "$/core");
+                    Console.WriteLine("got bid $" + curPriceMonthlyFmt + "/core");
                 }
 
                 String curLeaseID = bid["bid_id"]["provider"].ToString();
                 if (CheckIsBad(curLeaseID)) continue; // Skipped banned ones
-
 
                 if (curBest == null) // Save primary
                 {
@@ -298,7 +293,6 @@ namespace akash_dep
                     continue;
                 }
 
-                //long bestPrice = curBest["price"]["amount"].ToObject<long>();
                 JToken bestPriceJS = curBest["price"];
                 double bestPrice = Converters.UAKTJSget(bestPriceJS);
 
@@ -308,6 +302,7 @@ namespace akash_dep
                     continue;
                 }
             }
+
             if (curBest == null)
             {
                 Console.WriteLine("no good lease was found! numOpened " + numOpened);
@@ -319,9 +314,9 @@ namespace akash_dep
             JToken priceJS = curBest["price"];
             double price = Converters.UAKTJSget(priceJS);
 
-            var priceFmt = Converters.DoubleToStr2Dig(Converters.UAKTtoUSDMonthly(price)/ curNumInstances);
-            Console.WriteLine("good lease price " + priceFmt + "$/core");
-            Console.WriteLine("good lease was found id " + leaseID);
+            var priceFmt = Converters.DoubleToStr2Dig(Converters.UAKTtoUSDMonthly(price) / curNumInstances);
+            Console.WriteLine("good lease price $" + priceFmt + "/core");
+            Console.WriteLine("good lease was found, id " + leaseID);
             return leaseID;
         }
 
@@ -335,6 +330,7 @@ namespace akash_dep
             Akash.PushAkash(exec);
 
             String js_raw;
+
             if (File.Exists("bids.txt"))
             {
                 Console.WriteLine("cached bids.txt");
@@ -347,18 +343,18 @@ namespace akash_dep
                 js_raw = Converters.YAMLtoJSON(yam_str);
             }
 
-
             JToken js = Converters.STRtoJS(js_raw);
-            //File.WriteAllText("/home/kifa/akash/akash/bin/bids_js.txt", js_raw);
 
             try
             {
                 JArray bids = (JArray)js["bids"];
+
                 if (bids.Count == 0)
                 {
                     Console.WriteLine("bids are not ready");
                     return false;
                 }
+
                 m_provider = FindBestLease(js);
             }
             catch
@@ -373,11 +369,14 @@ namespace akash_dep
                 File.WriteAllText("bids.txt", js_raw);
                 return true;
             }
+
             return false;
         }
+
         public bool SelectLease()
         {
-            Console.WriteLine(m_dseq + " selecting lease "+m_provider);
+            Console.WriteLine(m_dseq + " selecting lease " + m_provider);
+
             if (File.Exists("lease.txt"))
             {
                 Console.WriteLine("cached lease.txt");
@@ -393,6 +392,7 @@ namespace akash_dep
 
             Akash.PushAkash(exec);
             String yam_str = Akash.Send();
+
             if (!String.IsNullOrEmpty(yam_str))
             {
                 Console.WriteLine("selecting lease ok");
@@ -406,28 +406,23 @@ namespace akash_dep
             }
         }
 
-        //active, closed
         public String GetLeaseState()
         {
-            // get lease info[currently fetch primary]
-            if (m_currentLeases==null || m_currentLeases.Count==0)
+            if (m_currentLeases == null || m_currentLeases.Count == 0)
             {
-                Console.WriteLine("invoking getLeaseState without checkLeast, no info provided");
-                return "dead";
+                Console.WriteLine("getting lease state failed, no leases");
+                return "none";
             }
-
-            // get lease info[currently fetch primary]
 
             try
             {
                 JToken lease = m_currentLeases[0]["lease"];
-                JToken leaseID = lease["lease_id"];
                 String lease_state = lease["state"].ToString();
                 return lease_state;
             }
             catch
             {
-                return "none";
+                return "unknown";
             }
         }
 
@@ -446,23 +441,23 @@ namespace akash_dep
             }
             catch
             {
-                return "none";
+                return "unknown";
             }
-
         }
 
         public int GetNumLeases()
         {
-            if(m_currentLeases==null)
+            if (m_currentLeases == null)
             {
                 return -1;
             }
+
             return m_currentLeases.Count;
         }
 
         public bool CheckLease()
         {
-            Console.WriteLine(m_dseq+" checking lease");
+            Console.WriteLine(m_dseq + " checking lease");
             SetSeqVars();
             SetProviderVars();
 
@@ -483,10 +478,8 @@ namespace akash_dep
                 return false;
             }
 
-
             if (m_currentLeases.Count > 0)
             {
-                //Console.WriteLine("checking lease OK");
                 File.WriteAllText("check.txt", js.ToString());
 
                 // We also load new values from lease for future uses or control
@@ -500,6 +493,7 @@ namespace akash_dep
                 Console.WriteLine("0 leases");
                 File.Delete("lease.txt");
             }
+
             return false;
         }
 
@@ -510,8 +504,8 @@ namespace akash_dep
             SetSeqVars();
             SetProviderVars();
             String exec = "tx deployment update \"" + AKASH_YML_EDITED_PATH + "\" " +
-            "--dseq $AKASH_DSEQ --from $AKASH_KEY_NAME --chain-id $AKASH_CHAIN_ID " +
-            "--node $AKASH_NODE --yes "+ PrepareGas();
+                "--dseq $AKASH_DSEQ --from $AKASH_KEY_NAME --chain-id $AKASH_CHAIN_ID " +
+                "--node $AKASH_NODE --yes "+ PrepareGas();
             UpdateExec(ref exec);
             Akash.PushAkash(exec);
             String js_str = Akash.Send();
@@ -520,16 +514,19 @@ namespace akash_dep
             if (js == null)
             {
                 var error = Akash.LastError();
+
                 if (error.Contains("rpc error:") && error.Contains("Invalid: deployment version:"))
                 {
                     return -1;
                 }
+
                 return 0;
             }
 
             try
             {
                 String events = js["logs"][0]["events"].ToString();
+
                 if (events.Contains("deployment-updated"))
                 {
                     Console.WriteLine("sending manifest event ok");
@@ -545,6 +542,7 @@ namespace akash_dep
             {
                 Console.WriteLine("crash in manifests " + js_str);
             }
+
             return 0;
         }
 
@@ -570,8 +568,9 @@ namespace akash_dep
             }
             else
             {
-                Console.WriteLine("sending manifest failed: \n"+yam_str);
+                Console.WriteLine("sending manifest failed\n" + yam_str);
             }
+
             return false;
         }
 
@@ -597,8 +596,7 @@ namespace akash_dep
 
         public bool Deposit(double uakt)
         {
-
-            Console.WriteLine(m_dseq + " depositing " + Converters.UAKTtoAKT(uakt) + "akt to "+m_dseq);
+            Console.WriteLine(m_dseq + " depositing " + Converters.UAKTtoAKT(uakt) + "akt to " + m_dseq);
             String exec = "tx deployment deposit " + uakt + "uakt --node $AKASH_NODE --chain-id $AKASH_CHAIN_ID " +
                 "--dseq $AKASH_DSEQ --owner $AKASH_ACCOUNT_ADDRESS --from $AKASH_KEY_NAME " +
                 "--keyring-backend $AKASH_KEYRING_BACKEND --yes " + PrepareGas();
@@ -609,23 +607,24 @@ namespace akash_dep
 
             JToken js = Converters.STRtoJS(yam_str);
 
-            if(yam_str==null || js==null)
+            if (yam_str == null || js == null)
             {
-                Console.WriteLine("invalid data "+yam_str);
+                Console.WriteLine("invalid data " + yam_str);
                 return false;
             }
 
             JArray events = (JArray)js["logs"][0]["events"];
             bool checkTransfer = false;
-            foreach(var ev in events)
+
+            foreach (var ev in events)
             {
-                if(ev["type"].ToString()== "transfer")
+                if (ev["type"].ToString() == "transfer")
                 {
                     checkTransfer = true;
                 }
             }
 
-            if(!checkTransfer)
+            if (!checkTransfer)
             {
                 Console.WriteLine("failed transfer");
                 return false;
@@ -633,11 +632,8 @@ namespace akash_dep
 
             File.WriteAllText("deposit.txt", yam_str);
 
-
-
             Console.WriteLine("deposit ok");
             return true;
         }
     }
-
 }

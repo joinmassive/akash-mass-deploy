@@ -1,6 +1,4 @@
-﻿//#define USE_TEST_DATA
-
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
@@ -8,8 +6,6 @@ using Newtonsoft.Json.Linq;
 
 namespace akash_dep
 {
-
-
     class MainClass
     {
         public static int kMaxCreateRetry = 3;
@@ -20,7 +16,7 @@ namespace akash_dep
         public static int kMaxManifestRetry = 1;
         public static int kMaxManifestIter = 1000;
 
-        // -1 create error ,-2 Lease Error, -3 Manifest error, -4 exception
+        // -1 create error, -2 Lease Error, -3 Manifest error, -4 exception
         public static int NewDeployment(ref Wallet wl, long numInstances)
         {
             try
@@ -28,16 +24,18 @@ namespace akash_dep
                 Instance inst = new Instance(ref wl);
                 inst.ClearCaches();
 
-
-                for (int i = 0; i < kMaxCreateRetry && !inst.Create(numInstances); i++) { }
-
+                for (int i = 0; i < kMaxCreateRetry && !inst.Create(numInstances); i++)
+                {
+                }
 
                 var retry = 0;
+
                 while (!inst.CreateLease() || !inst.SelectLease() || !inst.CheckLease())
                 {
                     // try one more time
                     System.Threading.Thread.Sleep(kMaxLeaseter);
                     retry++;
+
                     if (retry > kMaxLeaseRetry)
                     {
                         inst.Close();
@@ -45,19 +43,19 @@ namespace akash_dep
                     }
                 }
 
-                if(Instance.ONLY_PREVIEW)
+                if (Instance.ONLY_PREVIEW)
                 {
                     inst.Close();
                     return 0;
                 }
 
-
-
                 retry = 0;
+
                 while (!inst.SendManifest())
                 {
                     System.Threading.Thread.Sleep(kMaxManifestIter); // Must also wait to confirm
                     retry++;
+
                     if (retry > kMaxManifestRetry)
                     {
                         inst.MarkBad(); // bad manifest submission should be marked
@@ -74,22 +72,14 @@ namespace akash_dep
                 Console.WriteLine("deployment exception");
                 return -4;
             }
-
-
         }
 
         public static void Main(string[] args)
         {
-
             int numParams = args.Count();
 
-
-
-            JToken mainConfig;
-            {
-                String configText = File.ReadAllText("./config.js");
-                mainConfig = Converters.STRtoJS(configText);
-            }
+            String configText = File.ReadAllText("./config.js");
+            JToken mainConfig = Converters.STRtoJS(configText);
 
             Akash.LoadCfg(mainConfig); // Load shared params
 
@@ -112,34 +102,38 @@ namespace akash_dep
 
             InstanceList lst = new InstanceList(ref wl);
             Console.WriteLine("numParams " + numParams);
-            if (numParams>=1)
+
+            if (numParams >= 1)
             {
                 lst.Query();
-                var vars= args[0];
+                var vars = args[0];
+
                 if (vars == "close")
                 {
                     bool closeNoLease = false;
                     bool closeClosedLease = false;
                     bool closeExpensive = false;
                     bool closeAll = false;
-                    for (int i=1;i<numParams;i++)
+
+                    for (int i = 1; i < numParams; i++)
                     {
                         if (args[i] == "no") closeNoLease = true;
                         if (args[i] == "closed") closeClosedLease = true;
                         if (args[i] == "expensive") closeExpensive = true;
                         if (args[1] == "all") closeAll = true;
                     }
+
                     lst.Close(closeNoLease, closeClosedLease, closeExpensive, closeAll);
                 }
-                else if(vars == "deposits")
+                else if (vars == "deposits")
                 {
                     lst.DoDeposits(5);
                 }
-                else if(vars == "manifests")
+                else if (vars == "manifests")
                 {
                     lst.UpdateManifests();
                 }
-                else if(vars=="info")
+                else if (vars == "info")
                 {
                     lst.Stats();
                     return;
@@ -152,7 +146,7 @@ namespace akash_dep
 
             int CREATE_DEPLOYMENTS = mainConfig["CREATE_DEPLOYMENTS"].ToObject<int>();
 
-            var progress = new ProgressConsole(CREATE_DEPLOYMENTS,"creating deployments");
+            var progress = new ProgressConsole(CREATE_DEPLOYMENTS, "creating deployments");
 
             int numGood = 0;
 
@@ -161,11 +155,12 @@ namespace akash_dep
                 progress.Increment();
 
                 int depStatus = NewDeployment(ref wl, DEFAULT_CORES);
-                if (depStatus==0)
+
+                if (depStatus == 0)
                 {
                     numGood++;
                 }
-                else if(depStatus==-2) // Lease error, stop
+                else if (depStatus == -2) // Lease error, stop
                 {
                     Console.WriteLine("no more leases available");
                     break;
