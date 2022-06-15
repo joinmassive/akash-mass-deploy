@@ -84,3 +84,6 @@ even the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE
 
 The Massive logos, trademarks, domain names, and other brand features used in this program cannot be
 reused without permission and no license is granted thereto.
+
+The included Akash Network name, logo, and service names are trademarks or trade dress of Overclock
+Labs, Inc.; any use thereof is subject to [their own license terms](https://akash.network/terms).
